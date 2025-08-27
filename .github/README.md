@@ -42,7 +42,12 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
  <img width="1530" height="674" alt="Screenshot 2025-08-27 111606" src="https://github.com/user-attachments/assets/452697a3-1f8d-4c28-8876-9056a4776fef" />
  <img width="1529" height="707" alt="Screenshot 2025-08-27 111622" src="https://github.com/user-attachments/assets/0839bc77-68b2-439b-89be-b71d1cd129e3" />
  <img width="1895" height="859" alt="image" src="https://github.com/user-attachments/assets/bc367569-f594-4498-94e2-a9e826d5dbe3" />
- 
+ <img width="1896" height="864" alt="Screenshot 2025-08-27 112124" src="https://github.com/user-attachments/assets/0540a783-94b7-4705-98a3-fb998f406d20" />
+ <img width="990" height="862" alt="Screenshot 2025-08-27 112214" src="https://github.com/user-attachments/assets/89c2b742-23b1-4e75-ab4a-7e715e6732dc" />
+ <img width="994" height="814" alt="Screenshot 2025-08-27 112233" src="https://github.com/user-attachments/assets/85d84bb1-15ab-440e-9ed8-e59b6e514c75" />
+ <img width="997" height="865" alt="Screenshot 2025-08-27 112457" src="https://github.com/user-attachments/assets/80ab4acb-49f7-4a50-90b2-1712e1c20781" />
+ <img width="992" height="763" alt="Screenshot 2025-08-27 112508" src="https://github.com/user-attachments/assets/aa459ed7-59fc-4a01-af50-b1979ef6d4ef" />
+ <img width="1000" height="851" alt="Screenshot 2025-08-27 112559" src="https://github.com/user-attachments/assets/5a3a57d1-3785-4b9c-8bcb-6650bc6882c9" />
  <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
 ## Contributors
