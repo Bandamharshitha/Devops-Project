@@ -47,13 +47,6 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
  <img width="994" height="814" alt="Screenshot 2025-08-27 112233" src="https://github.com/user-attachments/assets/85d84bb1-15ab-440e-9ed8-e59b6e514c75" />
  <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
-We have prepared detailed **Test Cases** for the Emergency Blood Availability Tracker project.
-For detailed test cases, see [Testing Document](testing.md).
-
-This document covers:
-- Positive test cases (expected workflows)  
-- Negative test cases (validation failures, edge cases)  
-- Priority levels (High/Medium/Low)  
 ## Contributors
 Made by Team 5 
 (23211A6703,
