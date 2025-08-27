@@ -1,3 +1,6 @@
+[Test Cases.xlsx](https://github.com/user-attachments/files/22002501/Test.Cases.xlsx)
+[Test Cases.xlsx](https://github.com/user-attachments/files/22002492/Test.Cases.xlsx)
+[Test Cases.xlsx](https://github.com/user-attachments/files/22002486/Test.Cases.xlsx)
 # Emergency Blood Availability Tracker
 ## Problem Statement
 During medical emergencies, people struggle to find matching blood types.  
