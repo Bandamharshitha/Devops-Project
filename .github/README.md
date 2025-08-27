@@ -36,10 +36,15 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 4. Deploy application using *Docker & Kubernetes*.  
 5. Cloud deployment on *AWS*.  
 ## Screenshots
-- <img width="1902" height="868" alt="image" src="https://github.com/user-attachments/assets/a67cc44e-14be-4d5b-9de3-2bbcc732f90a" />
- 
+ <img width="1902" height="868" alt="image" src="https://github.com/user-attachments/assets/a67cc44e-14be-4d5b-9de3-2bbcc732f90a" />
+ <img width="1890" height="883" alt="Screenshot 2025-08-27 111520" src="https://github.com/user-attachments/assets/ca4b61cf-f583-425b-9d26-c1c6bf2af23a" />
+ <img width="1491" height="866" alt="Screenshot 2025-08-27 111538" src="https://github.com/user-attachments/assets/6e0c64a4-e4b8-4e4c-ae10-64ee6d643651" />
+ <img width="1530" height="674" alt="Screenshot 2025-08-27 111606" src="https://github.com/user-attachments/assets/452697a3-1f8d-4c28-8876-9056a4776fef" />
+ <img width="1529" height="707" alt="Screenshot 2025-08-27 111622" src="https://github.com/user-attachments/assets/0839bc77-68b2-439b-89be-b71d1cd129e3" />
+
+
 - Donor Registration page  
-- <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
+ <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
 ## Contributors
 Made by Team 5
