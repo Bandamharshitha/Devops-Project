@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - LifeStream: Real-Time Blood Availability Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e63946;
+            --primary-dark: #d90429;
+            --secondary: #457b9d;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --accent: #ff9e00;
+            --success: #2a9d8f;
+            --gradient-start: #e63946;
+            --gradient-end: #9d0208;
+            --card-bg: #ffffff;
+            --text-dark: #2b2d42;
+            --text-light: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        nav .logo i {
+            margin-right: 10px;
+            color: var(--primary-dark);
+            animation: pulse 2s infinite;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active::after {
+            width: 100%;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: white;
+            padding: 100px 5% 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.3;
+        }
+        
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .about-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .about-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .breadcrumb a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .breadcrumb a:hover {
+            opacity: 1;
+        }
+        
+        .breadcrumb span {
+            margin: 0 10px;
+            opacity: 0.8;
+        }
+        
+        /* Sections */
+        .section {
+            padding: 80px 5%;
+        }
+        
+        .section-dark {
+            background: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-title.light h2 {
+            color: white;
+        }
+        
+        .section-title.light h2::after {
+            background: white;
+        }
+        
+        /* Mission Section */
+        .mission-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .mission-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .mission-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            background: var(--primary);
+        }
+        
+        .mission-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .mission-card p {
+            color: var(--text-light);
+        }
+        
+        /* Story Section */
+        .story-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .story-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .story-content p {
+            margin-bottom: 20px;
+            color: var(--text-light);
+        }
+        
+        .story-image {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Team Section */
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-member {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .member-image {
+            height: 250px;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .member-info {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .member-info h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .member-role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .member-info p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Values Section */
+        .values-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .value-item {
+            display: flex;
+            gap: 20px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .value-icon {
+            min-width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .value-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .value-content p {
+            color: var(--text-light);
+        }
+        
+        /* Impact Section */
+        .impact-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            color: white;
+        }
+        
+        .impact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .impact-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .impact-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .impact-text {
+            font-size: 1.1rem;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 80px 5%;
+            background: var(--light);
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .cta-content p {
+            margin-bottom: 30px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .story-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .story-image {
+                order: -1;
+                height: 300px;
+            }
+            
+            .section {
+                padding: 60px 5%;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">
+        <i class="fas fa-tint"></i>
+        LifeStream
+    </div>
+    <ul>
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="findblood.html"><i class="fas fa-search"></i> Find Blood</a></li>
+        <li><a href="donateblood.html"><i class="fas fa-hand-holding-heart"></i> Donate</a></li>
+        <li><a href="livealerts.html"><i class="fas fa-bell"></i> Alerts</a></li>
+        <li><a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="about-hero-content">
+        <div class="breadcrumb">
+            <a href="homepage.html">Home</a>
+            <span>/</span>
+            <a href="about.html">About Us</a>
+        </div>
+        <h1>Our Mission to Save Lives</h1>
+        <p>LifeStream is dedicated to creating a seamless connection between blood donors and those in need, ensuring timely access to life-saving blood across India.</p>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="section">
+    <div class="section-title">
+        <h2>Our Mission & Vision</h2>
+    </div>
+    
+    <div class="mission-container">
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h3>Save Lives</h3>
+            <p>To ensure that no one dies due to unavailability of blood when every second counts.</p>
+        </div>
+        
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Build Community</h3>
+            <p>Create a nationwide network of voluntary blood donors ready to help in emergencies.</p>
+        </div>
+        
+        <div class="mission-card">
+            <div class="mission-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Instant Response</h3>
+            <p>Leverage technology to provide real-time blood availability and rapid matching.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Story Section -->
+<section class="section section-dark">
+    <div class="story-container">
+        <div class="story-content">
+            <h2>Our Story</h2>
+            <p>LifeStream was founded in 2018 after our founder, Dr. Arjun Mehta, witnessed a tragic incident where a young accident victim couldn't get the required blood type in time. This preventable loss inspired the creation of a platform that could connect blood donors with recipients in real-time.</p>
+            <p>What started as a small initiative in Bangalore has now grown into a nationwide network with over 350 partner hospitals and thousands of dedicated donors. Our technology has been responsible for matching over 23,450 blood units to those in need, saving countless lives across India.</p>
+            <p>Today, LifeStream continues to innovate with predictive analytics for blood shortage forecasting, mobile blood donation camps, and educational programs to encourage regular voluntary donation.</p>
+        </div>
+        
+        <div class="story-image">
+            <i class="fas fa-history"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="section">
+    <div class="section-title">
+        <h2>Our Leadership</h2>
+    </div>
+    
+    <div class="team-container">
+        <div class="team-member">
+            <div class="member-image">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <div class="member-info">
+                <h3>Dr. Arjun Mehta</h3>
+                <div class="member-role">Founder & CEO</div>
+                <p>Former trauma surgeon with 15+ years of experience in emergency medicine.</p>
+            </div>
+        </div>
+        
+        <div class="team-member">
+            <div class="member-image">
+                <i class="fas fa-laptop-medical"></i>
+            </div>
+            <div class="member-info">
+                <h3>Priya Sharma</h3>
+                <div class="member-role">CTO</div>
+                <p>Technology expert specializing in healthcare systems and real-time data platforms.</p>
+            </div>
+        </div>
+        
+        <div class="team-member">
+            <div class="member-image">
+                <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="member-info">
+                <h3>Rahul Kapoor</h3>
+                <div class="member-role">Head of Operations</div>
+                <p>Manages hospital partnerships and donor relations across India.</p>
+            </div>
+        </div>
+        
+        <div class="team-member">
+            <div class="member-image">
+                <i class="fas fa-microphone"></i>
+            </div>
+            <div class="member-info">
+                <h3>Anjali Patel</h3>
+                <div class="member-role">Community Director</div>
+                <p>Leads awareness campaigns and educational programs on blood donation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="section section-dark">
+    <div class="section-title">
+        <h2>Our Values</h2>
+    </div>
+    
+    <div class="values-container">
+        <div class="value-item">
+            <div class="value-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <div class="value-content">
+                <h3>Urgency</h3>
+                <p>We understand that every second counts in emergency situations and strive to provide the fastest possible response.</p>
+            </div>
+        </div>
+        
+        <div class="value-item">
+            <div class="value-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="value-content">
+                <h3>Safety</h3>
+                <p>We maintain the highest standards of safety and screening for both donors and recipients.</p>
+            </div>
+        </div>
+        
+        <div class="value-item">
+            <div class="value-icon">
+                <i class="fas fa-transparency"></i>
+            </div>
+            <div class="value-content">
+                <h3>Transparency</h3>
+                <p>We believe in open communication about blood availability, needs, and impact.</p>
+            </div>
+        </div>
+        
+        <div class="value-item">
+            <div class="value-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="value-content">
+                <h3>Community</h3>
+                <p>We recognize that our strength comes from the collective effort of donors, hospitals, and volunteers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Section -->
+<section class="section impact-section">
+    <div class="section-title light">
+        <h2>Our Impact</h2>
+    </div>
+    
+    <div class="impact-container">
+        <div class="impact-card">
+            <div class="impact-number">23,450+</div>
+            <div class="impact-text">Blood Units Matched</div>
+        </div>
+        
+        <div class="impact-card">
+            <div class="impact-number">5,689+</div>
+            <div class="impact-text">Lives Saved</div>
+        </div>
+        
+        <div class="impact-card">
+            <div class="impact-number">350+</div>
+            <div class="impact-text">Partner Hospitals</div>
+        </div>
+        
+        <div class="impact-card">
+            <div class="impact-number">15,240+</div>
+            <div class="impact-text">Registered Donors</div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-content">
+        <h2>Join Us in Saving Lives</h2>
+        <p>Whether you want to become a donor, partner with us, or support our mission, there are many ways to get involved and make a difference.</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary">
+                <i class="fas fa-hand-holding-heart"></i> Become a Donor
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-hospital"></i> Partner With Us
+            </button>
+            <button class="btn btn-secondary">
+                <i class="fas fa-donate"></i> Make a Donation
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>LifeStream</h3>
+            <p>Connecting blood donors with recipients in real-time to save lives across India.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="findblood.html">Find Blood</a></li>
+                <li><a href="donateblood.html">Become a Donor</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Resources</h3>
+            <ul>
+                <li><a href="#">Blood Donation FAQs</a></li>
+                <li><a href="#">Eligibility Criteria</a></li>
+                <li><a href="#">Donation Process</a></li>
+                <li><a href="#">Blood Type Guide</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-column">
+            <h3>Contact</h3>
+            <ul>
+                <li><i class="fas fa-phone"></i> Emergency: 104</li>
+                <li><i class="fas fa-envelope"></i> help@lifestream.in</li>
+                <li><i class="fas fa-map-marker-alt"></i> Bangalore, India</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        &copy; 2023 LifeStream Blood Network. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    // Simple animation for elements when they come into view
+    document.addEventListener('DOMContentLoaded', function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        // Observe mission cards
+        document.querySelectorAll('.mission-card').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+        
+        // Observe team members
+        document.querySelectorAll('.team-member').forEach(member => {
+            member.style.opacity = 0;
+            member.style.transform = 'translateY(20px)';
+            member.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(member);
+        });
+        
+        // Observe value items
+        document.querySelectorAll('.value-item').forEach(item => {
+            item.style.opacity = 0;
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(item);
+        });
+    });
+</script>
+</body>
+</html>

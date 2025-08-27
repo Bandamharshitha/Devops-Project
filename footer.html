@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    footer {
+      background: #152a53;
+      color: #fff;
+      padding: 40px 20px 20px;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .footer h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .footer p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .social-icons a {
+      display: inline-block;
+      margin: 0 8px 0 0;
+      color: #fff;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .social-icons a:hover {
+      color: #ff4757;
+    }
+    .footer ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer ul li {
+      margin: 8px 0;
+    }
+    .footer ul li a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    .footer ul li a:hover {
+      color: #ff4757;
+    }
+    .contact p {
+      font-size: 14px;
+      margin: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .newsletter {
+      display: flex;
+      margin-top: 10px;
+    }
+    .newsletter input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px 0 0 5px;
+      outline: none;
+    }
+    .newsletter button {
+      background: #ff4757;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 0 5px 5px 0;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      border-top: 1px solid #334;
+      padding-top: 15px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+<footer class="footer">
+  <div class="footer-container">
+
+    <!-- About -->
+    <div>
+      <h3>LifeStream</h3>
+      <p>Connecting blood donors with recipients in real-time to save lives across India.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="#">Find Blood</a></li>
+        <li><a href="#">Become a Donor</a></li>
+        <li><a href="#">Hospital Portal</a></li>
+        <li><a href="#">Blood Donation Camps</a></li>
+      </ul>
+    </div>
+
+    <!-- Resources -->
+    <div>
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="#">Blood Donation FAQs</a></li>
+        <li><a href="#">Eligibility Criteria</a></li>
+        <li><a href="#">Donation Process</a></li>
+        <li><a href="#">Blood Type Guide</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact & Newsletter -->
+    <div>
+      <h3>Contact & Newsletter</h3>
+      <div class="contact">
+        <p><i class="fas fa-phone"></i> Emergency: 104</p>
+        <p><i class="fas fa-envelope"></i> help@lifestream.in</p>
+        <p><i class="fas fa-map-marker-alt"></i> Bangalore, India</p>
+      </div>
+      <div class="newsletter">
+        <input type="email" placeholder="Your email">
+        <button><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom -->
+  <div class="footer-bottom">
+    © 2023 LifeStream Blood Network. All rights reserved.
+  </div>
+</footer>
+
+</body>
+</html>

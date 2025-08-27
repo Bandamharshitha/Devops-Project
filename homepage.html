@@ -16,6 +16,11 @@
             --dark: #1d3557;
             --accent: #ff9e00;
             --success: #2a9d8f;
+            --gradient-start: #e63946;
+            --gradient-end: #9d0208;
+            --card-bg: #ffffff;
+            --text-dark: #2b2d42;
+            --text-light: #6c757d;
         }
         
         * {
@@ -29,6 +34,20 @@
             background: #f8f9fa;
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Pulse Animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
         /* Navigation Bar */
@@ -55,6 +74,7 @@
         nav .logo i {
             margin-right: 10px;
             color: var(--primary-dark);
+            animation: pulse 2s infinite;
         }
         
         nav ul {
@@ -93,7 +113,7 @@
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             color: white;
             padding: 80px 5% 100px;
             text-align: center;
@@ -112,8 +132,15 @@
             opacity: 0.3;
         }
         
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 20px;
             position: relative;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -140,6 +167,11 @@
             border-radius: 8px;
             backdrop-filter: blur(5px);
             min-width: 200px;
+            transition: transform 0.3s ease;
+        }
+        
+        .counter-item:hover {
+            transform: translateY(-5px);
         }
         
         .counter-number {
@@ -203,25 +235,55 @@
         }
         
         #map {
-            height: 400px;
+            height: 500px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border: 1px solid rgba(0,0,0,0.1);
         }
         
+        .map-overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 300px;
+        }
+        
+        .map-overlay h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .blood-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .blood-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
         /* Sections */
         .section {
-            padding: 60px 5%;
+            padding: 80px 5%;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             position: relative;
         }
         
         .section-title h2 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             color: var(--dark);
             display: inline-block;
         }
@@ -253,6 +315,19 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .alert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            opacity: 0.2;
         }
         
         .alert-card:hover {
@@ -264,8 +339,16 @@
             border-left-color: #ff0000;
         }
         
+        .alert-card.critical::before {
+            background: #ff0000;
+        }
+        
         .alert-card.warning {
             border-left-color: var(--accent);
+        }
+        
+        .alert-card.warning::before {
+            background: var(--accent);
         }
         
         .alert-header {
@@ -301,6 +384,12 @@
         
         .alert-content {
             color: #666;
+        }
+        
+        .alert-time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 10px;
         }
         
         /* Search Section */
@@ -368,6 +457,18 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
         }
         
         .metric-card:hover {
@@ -384,6 +485,18 @@
             justify-content: center;
             font-size: 1.8rem;
             color: white;
+            position: relative;
+        }
+        
+        .metric-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: inherit;
+            opacity: 0.2;
+            transform: scale(1.5);
         }
         
         .metric-icon.primary {
@@ -408,6 +521,170 @@
         .metric-title {
             color: var(--secondary);
             font-weight: 500;
+        }
+        
+        /* Stories Section */
+        .stories-section {
+            background: var(--light);
+        }
+        
+        .stories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .story-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .story-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .story-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .story-content {
+            padding: 20px;
+        }
+        
+        .story-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .story-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .story-author {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .author-info {
+            font-size: 0.9rem;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .author-title {
+            color: #999;
+        }
+        
+        /* How It Works Section */
+        .process-steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 250px;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .step-content p {
+            color: #666;
+        }
+        
+        .step-connector {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: #ddd;
+            z-index: 1;
+        }
+        
+        /* Partners Section */
+        .partners-section {
+            background: var(--light);
+        }
+        
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .partner-logo {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            transform: translateY(-5px);
+        }
+        
+        .partner-logo i {
+            font-size: 2.5rem;
+            color: var(--primary);
         }
         
         /* Footer */
@@ -473,10 +750,82 @@
             transform: translateY(-3px);
         }
         
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-family: inherit;
+        }
+        
+        .newsletter-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
         .copyright {
             border-top: 1px solid rgba(255,255,255,0.1);
             padding-top: 20px;
             color: #aaa;
+        }
+        
+        /* Blood Type Indicator */
+        .blood-type-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .blood-type-O-neg {
+            background: #ffcccc;
+            color: #cc0000;
+        }
+        
+        .blood-type-O-pos {
+            background: #ffe6cc;
+            color: #ff6600;
+        }
+        
+        .blood-type-A-neg {
+            background: #ccffcc;
+            color: #00cc00;
+        }
+        
+        .blood-type-A-pos {
+            background: #ccffff;
+            color: #00cccc;
+        }
+        
+        .blood-type-B-neg {
+            background: #ccccff;
+            color: #0000cc;
+        }
+        
+        .blood-type-B-pos {
+            background: #e6ccff;
+            color: #6600cc;
+        }
+        
+        .blood-type-AB-neg {
+            background: #ffccff;
+            color: #cc00cc;
+        }
+        
+        .blood-type-AB-pos {
+            background: #ffffcc;
+            color: #cccc00;
         }
         
         /* Responsive */
@@ -489,6 +838,8 @@
             nav ul {
                 margin-top: 15px;
                 gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
             }
             
             .hero h1 {
@@ -507,6 +858,18 @@
             .section {
                 padding: 40px 5%;
             }
+            
+            .step-connector {
+                display: none;
+            }
+            
+            .map-overlay {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -523,39 +886,52 @@
         <li><a href="donateblood.html"><i class="fas fa-hand-holding-heart"></i> Donate</a></li>
         <li><a href="livealerts.html"><i class="fas fa-bell"></i> Alerts</a></li>
         <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
-    
     </ul>
 </nav>
 
 <!-- Hero Section -->
 <section class="hero">
-    <h1>Connecting Donors to Those in Need</h1>
-    <p>Our real-time network ensures blood availability when it matters most. Join thousands of hospitals and donors saving lives every day.</p>
-    
-    <div class="counters">
-        <div class="counter-item">
-            <div class="counter-number" id="donorCount">1,240+</div>
-            <div>Active Donors</div>
+    <div class="hero-content">
+        <h1>Connecting Donors to Those in Need</h1>
+        <p>Our real-time network ensures blood availability when it matters most. Join thousands of hospitals and donors saving lives every day.</p>
+        
+        <div class="counters">
+            <div class="counter-item">
+                <div class="counter-number" id="donorCount">1,240+</div>
+                <div>Active Donors</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number" id="hospitalCount">350+</div>
+                <div>Partner Hospitals</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number">56,892+</div>
+                <div>Lives Saved</div>
+            </div>
         </div>
-        <div class="counter-item">
-            <div class="counter-number" id="hospitalCount">350+</div>
-            <div>Partner Hospitals</div>
+        
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="location.href='donateblood.html'">
+                <i class="fas fa-hand-holding-heart"></i> Become a Donor
+            </button>
+            <button class="btn btn-accent" onclick="location.href='findblood.html'">
+                <i class="fas fa-bolt"></i> Urgent Help Needed
+            </button>
         </div>
-        <div class="counter-item">
-            <div class="counter-number">56,892+</div>
-            <div>Lives Saved</div>
-        </div>
-    </div>
-    
-    <div class="cta-buttons">
-        <button class="btn btn-accent" onclick="location.href='emergency.html'">
-            <i class="fas fa-bolt"></i> Urgent Help Needed
-        </button>
     </div>
 </section>
 
 <!-- Live Map -->
 <div class="map-container">
+    <div class="map-overlay">
+        <h3>Blood Availability Legend</h3>
+        <div class="blood-legend">
+            <span class="blood-badge blood-type-O-neg">O-: Critical</span>
+            <span class="blood-badge blood-type-O-pos">O+: Low</span>
+            <span class="blood-badge blood-type-A-neg">A-: Adequate</span>
+            <span class="blood-badge blood-type-A-pos">A+: Good</span>
+        </div>
+    </div>
     <div id="map"></div>
 </div>
 
@@ -571,11 +947,12 @@
                 <div class="alert-icon critical">
                     <i class="fas fa-exclamation"></i>
                 </div>
-                <div class="alert-title">Critical Shortage: O-</div>
+                <div class="alert-title">Critical Shortage: <span class="blood-type-indicator blood-type-O-neg">O-</span></div>
             </div>
             <div class="alert-content">
                 Only 2 units remaining at City Hospital, Delhi. Urgent donations needed.
             </div>
+            <div class="alert-time">Posted 45 minutes ago</div>
         </div>
         
         <div class="alert-card warning">
@@ -583,11 +960,12 @@
                 <div class="alert-icon warning">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
-                <div class="alert-title">Low Stock: B-</div>
+                <div class="alert-title">Low Stock: <span class="blood-type-indicator blood-type-B-neg">B-</span></div>
             </div>
             <div class="alert-content">
                 3 units left at Metro Hospital, Mumbai. Stock expected to last 12 hours.
             </div>
+            <div class="alert-time">Posted 2 hours ago</div>
         </div>
         
         <div class="alert-card warning">
@@ -595,50 +973,57 @@
                 <div class="alert-icon warning">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
-                <div class="alert-title">Low Stock: A-</div>
+                <div class="alert-title">Low Stock: <span class="blood-type-indicator blood-type-A-neg">A-</span></div>
             </div>
             <div class="alert-content">
                 4 units available across 2 hospitals in Bangalore. Donations encouraged.
             </div>
+            <div class="alert-time">Posted 3 hours ago</div>
         </div>
     </div>
 </section>
 
-<!-- Search Section -->
-<section class="section search-section">
+<!-- How It Works Section -->
+<section class="section">
     <div class="section-title">
-        <h2>Find Blood Near You</h2>
+        <h2>How LifeStream Works</h2>
     </div>
     
-    <div class="search-form">
-        <div class="form-group">
-            <select class="form-control" id="bloodType">
-                <option value="">Select Blood Type</option>
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>O+</option>
-                <option>O-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-            </select>
-            
-            <select class="form-control" id="state">
-                <option value="">Select State</option>
-                <option>Delhi</option>
-                <option>Maharashtra</option>
-                <option>Karnataka</option>
-                <option>Tamil Nadu</option>
-                <option>West Bengal</option>
-            </select>
-            
-            <input type="text" class="form-control" id="city" placeholder="Enter City">
+    <div class="process-steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+                <h3>Register</h3>
+                <p>Sign up as a donor or hospital and create your profile</p>
+            </div>
         </div>
         
-        <button class="btn btn-primary btn-block" onclick="searchBlood()">
-            <i class="fas fa-search"></i> Search Blood Availability
-        </button>
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+                <h3>Connect</h3>
+                <p>Our system matches blood requests with available donors</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-connector"></div>
+            <div class="step-content">
+                <h3>Donate</h3>
+                <p>Donors receive alerts and can schedule donations</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Save Lives</h3>
+                <p>Hospitals receive blood units and patients get treatment</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -671,6 +1056,100 @@
             </div>
             <div class="metric-number" id="avgMatchTime">8 mins</div>
             <div class="metric-title">Avg. Match Time</div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Stories Section -->
+<section class="section stories-section">
+    <div class="section-title">
+        <h2>Success Stories</h2>
+    </div>
+    
+    <div class="stories-container">
+        <div class="story-card">
+            <div class="story-image">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="story-content">
+                <h3>Emergency Response Saves Child</h3>
+                <p>When 8-year-old Rohan needed emergency surgery, LifeStream connected the hospital with 3 matching donors within 15 minutes.</p>
+                <div class="story-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Dr. Priya Sharma</div>
+                        <div class="author-title">Pediatric Surgeon, Delhi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-card">
+            <div class="story-image">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="story-content">
+                <h3>Community Comes Together</h3>
+                <p>After a tragic accident, 25 donors in Mumbai responded to the alert and provided all the blood needed for the victims.</p>
+                <div class="story-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Raj Mehta</div>
+                        <div class="author-title">Blood Donor, Mumbai</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-card">
+            <div class="story-image">
+                <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="story-content">
+                <h3>Rare Blood Type Found</h3>
+                <p>For a patient with an extremely rare blood type, LifeStream located a compatible donor 200km away and facilitated transport.</p>
+                <div class="story-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Anjali Patel</div>
+                        <div class="author-title">Patient's Relative, Bangalore</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Partners Section -->
+<section class="section partners-section">
+    <div class="section-title">
+        <h2>Our Partner Hospitals</h2>
+    </div>
+    
+    <div class="partners-grid">
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="partner-logo">
+            <i class="fas fa-hospital"></i>
         </div>
     </div>
 </section>
@@ -710,12 +1189,17 @@
         </div>
         
         <div class="footer-column">
-            <h3>Contact</h3>
+            <h3>Contact & Newsletter</h3>
             <ul>
                 <li><i class="fas fa-phone"></i> Emergency: 104</li>
                 <li><i class="fas fa-envelope"></i> help@lifestream.in</li>
                 <li><i class="fas fa-map-marker-alt"></i> Bangalore, India</li>
             </ul>
+            
+            <div class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Your email">
+                <button class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+            </div>
         </div>
     </div>
     
@@ -775,6 +1259,28 @@ var hospitals = [
         },
         address: "MG Road, Bangalore",
         phone: "080-98765432"
+    },
+    {
+        name: "LifeCare Medical Center", 
+        lat: 13.0827, 
+        lon: 80.2707, 
+        stock: {
+            "A+": 18, "A-": 4, "B+": 7, "B-": 2, 
+            "O+": 9, "O-": 1, "AB+": 6, "AB-": 2
+        },
+        address: "Anna Salai, Chennai",
+        phone: "044-87654321"
+    },
+    {
+        name: "Sunshine Hospital", 
+        lat: 17.3850, 
+        lon: 78.4867, 
+        stock: {
+            "A+": 14, "A-": 3, "B+": 9, "B-": 2, 
+            "O+": 11, "O-": 2, "AB+": 5, "AB-": 1
+        },
+        address: "Banjara Hills, Hyderabad",
+        phone: "040-76543210"
     }
 ];
 
@@ -784,7 +1290,17 @@ hospitals.forEach(h => {
     stockHtml += '<tr><th style="text-align:left;padding:5px;border-bottom:1px solid #eee;">Type</th><th style="text-align:right;padding:5px;border-bottom:1px solid #eee;">Units</th></tr>';
     
     for (const [type, units] of Object.entries(h.stock)) {
-        const rowColor = units === 0 ? 'color:red;font-weight:bold;' : (units < 3 ? 'color:orange;' : '');
+        let rowColor = '';
+        let statusClass = '';
+        
+        if (units === 0) {
+            rowColor = 'color:#ff0000;font-weight:bold;';
+            statusClass = 'critical';
+        } else if (units < 3) {
+            rowColor = 'color:#ff8c00;';
+            statusClass = 'warning';
+        }
+        
         stockHtml += `<tr><td style="padding:5px;border-bottom:1px solid #eee;${rowColor}">${type}</td><td style="text-align:right;padding:5px;border-bottom:1px solid #eee;${rowColor}">${units}</td></tr>`;
     }
     
@@ -821,8 +1337,37 @@ function searchBlood() {
         map.setView([19.0760, 72.8777], 11);
     } else if (state === "Karnataka") {
         map.setView([12.9716, 77.5946], 11);
+    } else if (state === "Tamil Nadu") {
+        map.setView([13.0827, 80.2707], 11);
     }
 }
+
+// Animated counters
+function animateCounter(element, target, duration) {
+    let start = 0;
+    let increment = target / (duration / 16); // 60fps
+    let current = 0;
+    
+    let timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = Math.round(target).toLocaleString() + '+';
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.round(current).toLocaleString() + '+';
+        }
+    }, 16);
+}
+
+// Initialize counters when in view
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        animateCounter(document.getElementById('donorCount'), 1240, 2000);
+        animateCounter(document.getElementById('hospitalCount'), 350, 2000);
+        animateCounter(document.getElementById('livesSaved'), 5689, 2000);
+        animateCounter(document.getElementById('unitsMatched'), 23450, 2000);
+    }, 500);
+});
 </script>
 </body>
 </html>
