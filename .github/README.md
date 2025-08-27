@@ -48,20 +48,9 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
  <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
 We have prepared detailed **Test Cases** for the Emergency Blood Availability Tracker project.
+For detailed test cases, see [Testing Document](testing/testing.md).
 
-The complete test case sheet can be found here:  
-[Test Cases.xlsx](https://github.com/user-attachments/files/22002648/Test.Cases.xlsx)
-
-### Sample Test Cases Preview
-
-| Test Case ID | Feature            | Test Steps                                | Expected Result                            | Priority |
-|--------------|--------------------|-------------------------------------------|--------------------------------------------|----------|
-| TC-01        | Homepage           | Open homepage in browser                  | Homepage loads within 2 seconds             | High     |
-| TC-02        | Donor Registration | Submit form with empty fields             | Proper error message should appear          | High     |
-| TC-03        | Find Blood         | Search valid blood group                  | Matching donors/hospitals are displayed     | High     |
-| TC-04        | Live Alerts        | Trigger emergency alert from backend      | Alert is displayed on the dashboard in real-time | High |
-
-🔎 This document covers:
+This document covers:
 - Positive test cases (expected workflows)  
 - Negative test cases (validation failures, edge cases)  
 - Priority levels (High/Medium/Low)  
