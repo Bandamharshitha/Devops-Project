@@ -8,7 +8,7 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 - *Database Management:* Gnyaneshwari  
 - *Testing (Manual + Automated):* Kamakshi 
 - *Jenkins (CI/CD Integration):* Swetha
-- *Docker + Kubernetes Deployment:* J.Harshitha, Gnyaneshwari, B.Harshitha 
+- *Docker + Kubernetes Deployment:* J.Harshitha, B.Harshitha 
 - *GitHub Repository & Version Control:* B.Harshitha  
 - *Cloud & Deployment (AWS/Azure/GCP):* G.Harshitha 
 ## Project Progress (as of now)
