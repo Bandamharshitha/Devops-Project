@@ -4,7 +4,7 @@ During medical emergencies, people struggle to find matching blood types.
 Our project aims to build a *real-time dashboard* that shows available donors/hospitals with specific blood types nearby, based on location.
 ## Team Members and Roles
 - *Frontend Development:* G.Navya, Swetha
-- *Backend Development:* J.Harshitha, G.Navya
+- *Backend Development:* Gnyaneshwari, G.Navya
 - *Database Management:* Gnyaneshwari  
 - *Testing (Manual + Automated):* Kamakshi 
 - *Jenkins (CI/CD Integration):* Swetha
