@@ -1,0 +1,1205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank Finder | LifeStream</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --primary-dark: #b71c1c;
+            --secondary: #388e3c;
+            --secondary-dark: #2e7d32;
+            --accent: #1976d2;
+            --accent-dark: #1565c0;
+            --text: #333;
+            --text-light: #666;
+            --bg: #f8f9fa;
+            --card-bg: #fff;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2rem;
+        }
+        
+        .admin-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .search-container {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        select, input, button {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent-dark);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        .results-container {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .available {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .low {
+            color: var(--warning);
+            font-weight: bold;
+        }
+        
+        .not-available {
+            color: var(--danger);
+            font-weight: bold;
+        }
+        
+        .request-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .request-btn:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-1px);
+        }
+        
+        .request-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .form-row {
+            margin-bottom: 1rem;
+        }
+        
+        .form-row label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-row input, .form-row select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .emergency-banner {
+            background-color: var(--danger);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .admin-panel {
+            display: none;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .admin-form .form-group {
+            flex: 1 1 200px;
+        }
+        
+        .blood-type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .blood-type-input {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .blood-type-input label {
+            font-size: 0.8rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .blood-type-input input {
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .admin-table {
+            margin-top: 1.5rem;
+        }
+        
+        .admin-table th {
+            background-color: var(--accent);
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+        
+        .edit-btn {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .search-form, .admin-form {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                width: 100%;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .blood-type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header-content h1 {
+                font-size: 1.5rem;
+            }
+            
+            .admin-btn {
+                position: static;
+                transform: none;
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>LifeStream Blood Bank Finder</h1>
+            <button class="admin-btn" id="adminBtn" title="Admin Login">
+                <i class="fas fa-user-shield"></i>
+            </button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="admin-panel" id="adminPanel">
+            <h2><i class="fas fa-tools"></i> Admin Panel - Manage Blood Banks</h2>
+            
+            <form id="adminForm" class="admin-form">
+                <input type="hidden" id="editId">
+                
+                <div class="form-group">
+                    <label for="adminHospitalName">Hospital Name</label>
+                    <input type="text" id="adminHospitalName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminLocation">Location</label>
+                    <select id="adminLocation" required>
+                        <option value="">-- Select District --</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminAddress">Address</label>
+                    <input type="text" id="adminAddress" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminContact">Contact Number</label>
+                    <input type="tel" id="adminContact" pattern="[0-9]{10}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminDistance">Distance (km)</label>
+                    <input type="text" id="adminDistance" required>
+                </div>
+                
+                <div style="width: 100%;">
+                    <label>Blood Availability</label>
+                    <div class="blood-type-grid">
+                        <div class="blood-type-input">
+                            <label for="adminAplus">A+</label>
+                            <input type="number" id="adminAplus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminAminus">A-</label>
+                            <input type="number" id="adminAminus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminBplus">B+</label>
+                            <input type="number" id="adminBplus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminBminus">B-</label>
+                            <input type="number" id="adminBminus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminOplus">O+</label>
+                            <input type="number" id="adminOplus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminOminus">O-</label>
+                            <input type="number" id="adminOminus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminABplus">AB+</label>
+                            <input type="number" id="adminABplus" min="0" value="0">
+                        </div>
+                        <div class="blood-type-input">
+                            <label for="adminABminus">AB-</label>
+                            <input type="number" id="adminABminus" min="0" value="0">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="width: 100%; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Blood Bank
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetAdminForm()" style="margin-left: 10px;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+            
+            <div class="admin-table">
+                <h3><i class="fas fa-list"></i> Current Blood Banks</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hospital</th>
+                                <th>Location</th>
+                                <th>Contact</th>
+                                <th>Blood Types</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminHospitalList">
+                            <!-- Admin list will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <h2><i class="fas fa-search"></i> Find Blood Availability</h2>
+            <div class="emergency-banner">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>In emergency? Call our 24/7 helpline: 105811</span>
+            </div>
+            
+            <form class="search-form" onsubmit="event.preventDefault(); showHospitals()">
+                <div class="form-group">
+                    <label for="location"><i class="fas fa-map-marker-alt"></i> Select Location</label>
+                    <select id="location" required>
+                        <option value="">-- Select District --</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Kolkata">Kolkata</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bloodType"><i class="fas fa-tint"></i> Blood Type (Optional)</label>
+                    <select id="bloodType">
+                        <option value="">All Types</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="results-container" id="hospitalList">
+            <div class="no-results">
+                <i class="fas fa-info-circle" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                <h3>Search for blood banks in your area</h3>
+                <p>Select your location and optionally filter by blood type to see availability</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="requestModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Request Blood</h3>
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        
+        <form id="requestForm" onsubmit="event.preventDefault(); submitRequest()">
+            <input type="hidden" id="modalHospitalName">
+            
+            <div class="form-row">
+                <label for="requestBloodType">Blood Type Needed</label>
+                <select id="requestBloodType" required>
+                    <option value="">-- Select Blood Type --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <label for="patientName">Patient Name</label>
+                <input type="text" id="patientName" required>
+            </div>
+            
+            <div class="form-row">
+                <label for="patientAge">Patient Age</label>
+                <input type="number" id="patientAge" min="1" max="120" required>
+            </div>
+            
+            <div class="form-row">
+                <label for="patientGender">Patient Gender</label>
+                <select id="patientGender" required>
+                    <option value="">-- Select --</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <label for="unitsRequired">Units Required</label>
+                <input type="number" id="unitsRequired" min="1" max="10" value="1" required>
+            </div>
+            
+            <div class="form-row">
+                <label for="contactNumber">Contact Number</label>
+                <input type="tel" id="contactNumber" pattern="[0-9]{10}" required>
+            </div>
+            
+            <div class="form-row">
+                <label for="urgency">Urgency Level</label>
+                <select id="urgency" required>
+                    <option value="Normal">Normal (Within 24 hours)</option>
+                    <option value="Urgent">Urgent (Within 6 hours)</option>
+                    <option value="Emergency">Emergency (Immediately)</option>
+                </select>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn">Submit Request</button>
+            </div>
+        </form>
+    </div>
+</div>
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Admin Login</h3>
+                <button class="close-btn" onclick="closeAdminLoginModal()">&times;</button>
+            </div>
+            
+            <form id="adminLoginForm" onsubmit="event.preventDefault(); checkAdminPassword()">
+                <div class="form-row">
+                    <label for="adminPassword">Enter Admin Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdminLoginModal()">Cancel</button>
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2023 LifeStream Blood Bank Network. All rights reserved.</p>
+        <p>A initiative to save lives by connecting blood donors with those in need.</p>
+    </div>
+    
+<script>
+  // Sample data - will be loaded from localStorage if available
+let bloodBankData = {
+    "Hyderabad": [
+        {
+            id: 1,
+            name: "Apollo Hospital",
+            address: "Jubilee Hills, Hyderabad",
+            contact: "040 1234 5678",
+            distance: "2.5 km",
+            availability: { 
+                "A+": { units: 5, lastUpdated: getCurrentDate() },
+                "A-": { units: 0, lastUpdated: getCurrentDate(-1) },
+                "B+": { units: 3, lastUpdated: getCurrentDate() },
+                "B-": { units: 1, lastUpdated: getCurrentDate() },
+                "O+": { units: 2, lastUpdated: getCurrentDate(-1) },
+                "O-": { units: 0, lastUpdated: getCurrentDate(-3) },
+                "AB+": { units: 1, lastUpdated: getCurrentDate() },
+                "AB-": { units: 0, lastUpdated: getCurrentDate(-4) }
+            }
+        },
+        {
+            id: 2,
+            name: "Yashoda Hospital",
+            address: "Secunderabad, Hyderabad",
+            contact: "040 9876 5432",
+            distance: "4.1 km",
+            availability: { 
+                "A+": { units: 2, lastUpdated: getCurrentDate() },
+                "A-": { units: 1, lastUpdated: getCurrentDate() },
+                "B+": { units: 0, lastUpdated: getCurrentDate(-1) },
+                "B-": { units: 2, lastUpdated: getCurrentDate() },
+                "O+": { units: 4, lastUpdated: getCurrentDate() },
+                "O-": { units: 1, lastUpdated: getCurrentDate(-2) },
+                "AB+": { units: 0, lastUpdated: getCurrentDate(-3) },
+                "AB-": { units: 0, lastUpdated: getCurrentDate(-4) }
+            }
+        }
+    ],
+    "Mumbai": [
+        {
+            id: 3,
+            name: "Lilavati Hospital",
+            address: "Bandra West, Mumbai",
+            contact: "022 6789 1234",
+            distance: "5.2 km",
+            availability: { 
+                "A+": { units: 3, lastUpdated: getCurrentDate() },
+                "A-": { units: 1, lastUpdated: getCurrentDate(-1) },
+                "B+": { units: 4, lastUpdated: getCurrentDate() },
+                "B-": { units: 0, lastUpdated: getCurrentDate(-2) },
+                "O+": { units: 5, lastUpdated: getCurrentDate() },
+                "O-": { units: 2, lastUpdated: getCurrentDate(-3) },
+                "AB+": { units: 1, lastUpdated: getCurrentDate() },
+                "AB-": { units: 0, lastUpdated: getCurrentDate(-4) }
+            }
+        }
+    ]
+};
+
+// Admin password (in a real app, this would be securely stored and verified server-side)
+const ADMIN_PASSWORD = "admin123";
+
+// Helper function to get current date with optional offset
+function getCurrentDate(dayOffset = 0) {
+    const date = new Date();
+    date.setDate(date.getDate() + dayOffset);
+    return date.toISOString().split('T')[0];
+}
+
+// Helper functions for localStorage
+function saveBloodBankData() {
+    localStorage.setItem('bloodBankData', JSON.stringify(bloodBankData));
+}
+
+function loadBloodBankData() {
+    const savedData = localStorage.getItem('bloodBankData');
+    if (savedData) {
+        bloodBankData = JSON.parse(savedData);
+    }
+}
+
+// Show hospitals based on search
+function showHospitals() {
+    const location = document.getElementById("location").value;
+    const bloodType = document.getElementById("bloodType").value;
+    const container = document.getElementById("hospitalList");
+    
+    if (!location) {
+        container.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                <h3>Please select a location</h3>
+                <p>Choose a district to search for blood banks in that area</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const hospitals = bloodBankData[location];
+    if (!hospitals || hospitals.length === 0) {
+        container.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-hospital" style="color: #ddd;"></i>
+                <h3>No blood banks found in ${location}</h3>
+                <p>We couldn't find any blood banks in the selected location. Try another nearby district.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Filter hospitals if blood type is specified
+    let filteredHospitals = hospitals;
+    if (bloodType) {
+        filteredHospitals = hospitals.filter(hospital => 
+            hospital.availability[bloodType] && hospital.availability[bloodType].units > 0
+        );
+        
+        if (filteredHospitals.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-tint" style="color: var(--danger);"></i>
+                    <h3>No ${bloodType} blood available in ${location}</h3>
+                    <p>We couldn't find any blood banks with ${bloodType} blood in stock. Try searching without blood type filter or check nearby districts.</p>
+                </div>
+            `;
+            return;
+        }
+    }
+    
+    let table = `
+        <h3><i class="fas fa-hospital"></i> Blood Banks in ${location}</h3>
+        <p>Showing ${filteredHospitals.length} blood bank${filteredHospitals.length !== 1 ? 's' : ''}</p>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Blood Bank</th>
+                        <th>Details</th>
+                        <th>A+</th>
+                        <th>A-</th>
+                        <th>B+</th>
+                        <th>B-</th>
+                        <th>O+</th>
+                        <th>O-</th>
+                        <th>AB+</th>
+                        <th>AB-</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+    
+    filteredHospitals.forEach(hospital => {
+        table += `
+            <tr>
+                <td>
+                    <strong>${hospital.name}</strong><br>
+                    <small>${hospital.address}</small><br>
+                    <small><i class="fas fa-phone"></i> ${hospital.contact}</small><br>
+                    <small><i class="fas fa-map-marker-alt"></i> ${hospital.distance} away</small>
+                </td>
+                <td>
+                    <small>Last updated: ${getLatestUpdateDate(hospital.availability)}</small>
+                </td>
+        `;
+        
+        // Add blood type availability cells
+        ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].forEach(type => {
+            const bloodData = hospital.availability[type] || { units: 0 };
+            table += `<td class="${getAvailabilityClass(bloodData.units)}">`;
+            
+            if (bloodData.units > 0) {
+                table += `${bloodData.units} unit${bloodData.units !== 1 ? 's' : ''}`;
+                if (bloodData.lastUpdated) {
+                    table += `<br><small>${formatDate(bloodData.lastUpdated)}</small>`;
+                }
+            } else {
+                table += `Not available`;
+            }
+            
+            table += `</td>`;
+        });
+        
+        // Add request button
+        table += `
+                <td>
+                    <button class="request-btn" onclick="openRequestModal('${hospital.name}', '${bloodType || ''}')" 
+                        ${bloodType && (!hospital.availability[bloodType] || hospital.availability[bloodType].units === 0) ? 'disabled' : ''}>
+                        <i class="fas fa-hand-holding-heart"></i> Request
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+    
+    table += `
+                </tbody>
+            </table>
+        </div>
+    `;
+    
+    container.innerHTML = table;
+}
+
+// Helper function to get the latest update date from availability data
+function getLatestUpdateDate(availability) {
+    let latestDate = '';
+    for (const type in availability) {
+        const date = availability[type].lastUpdated;
+        if (!latestDate || date > latestDate) {
+            latestDate = date;
+        }
+    }
+    return formatDate(latestDate);
+}
+
+// Helper function to format date
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
+// Helper function to determine availability class
+function getAvailabilityClass(units) {
+    if (units === 0) return 'not-available';
+    if (units < 3) return 'low';
+    return 'available';
+}
+
+// Modal functions
+function openRequestModal(hospitalName, bloodType) {
+    document.getElementById('modalHospitalName').value = hospitalName;
+    const bloodTypeSelect = document.getElementById('requestBloodType');
+    
+    // Set the blood type if one was selected in the search
+    if (bloodType) {
+        bloodTypeSelect.value = bloodType;
+    }
+    
+    document.getElementById('requestModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('requestModal').style.display = 'none';
+}
+
+function submitRequest() {
+    const hospitalName = document.getElementById('modalHospitalName').value;
+    const bloodType = document.getElementById('requestBloodType').value;
+    const patientName = document.getElementById('patientName').value;
+    const patientAge = document.getElementById('patientAge').value;
+    const patientGender = document.getElementById('patientGender').value;
+    const unitsRequired = document.getElementById('unitsRequired').value;
+    const contactNumber = document.getElementById('contactNumber').value;
+    const urgency = document.getElementById('urgency').value;
+    
+    // In a real app, this would be sent to a server
+    alert(`Blood request submitted successfully!\n\nHospital: ${hospitalName}\nBlood Type: ${bloodType}\nUnits: ${unitsRequired}\nPatient: ${patientName} (${patientAge}, ${patientGender})\nUrgency: ${urgency}\n\nWe'll contact you shortly at ${contactNumber}`);
+    
+    // Reset form and close modal
+    document.getElementById('requestForm').reset();
+    closeModal();
+}
+
+// Admin functions
+function toggleAdminPanel() {
+    const adminPanel = document.getElementById('adminPanel');
+    if (adminPanel.style.display === 'block') {
+        adminPanel.style.display = 'none';
+    } else {
+        document.getElementById('adminLoginModal').style.display = 'flex';
+    }
+}
+
+function closeAdminLoginModal() {
+    document.getElementById('adminLoginModal').style.display = 'none';
+    document.getElementById('adminPassword').value = '';
+}
+
+function checkAdminPassword() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === ADMIN_PASSWORD) {
+        document.getElementById('adminPanel').style.display = 'block';
+        closeAdminLoginModal();
+        loadAdminHospitalList();
+    } else {
+        alert('Incorrect admin password. Please try again.');
+    }
+}
+
+function loadAdminHospitalList() {
+    const container = document.getElementById('adminHospitalList');
+    let html = '';
+    
+    for (const location in bloodBankData) {
+        bloodBankData[location].forEach(hospital => {
+            html += `
+                <tr>
+                    <td>${hospital.name}</td>
+                    <td>${location}</td>
+                    <td>${hospital.contact}</td>
+                    <td>
+                        ${Object.entries(hospital.availability)
+                            .filter(([_, data]) => data.units > 0)
+                            .map(([type, data]) => `${type}: ${data.units}`)
+                            .join(', ')}
+                    </td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editHospital(${hospital.id})">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteHospital(${hospital.id})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+    
+    container.innerHTML = html || '<tr><td colspan="5" style="text-align: center;">No blood banks added yet</td></tr>';
+}
+
+function resetAdminForm() {
+    document.getElementById('adminForm').reset();
+    document.getElementById('editId').value = '';
+    document.getElementById('adminHospitalName').focus();
+    
+    // Reset all blood type inputs to 0
+    ['Aplus', 'Aminus', 'Bplus', 'Bminus', 'Oplus', 'Ominus', 'ABplus', 'ABminus'].forEach(type => {
+        document.getElementById(`admin${type}`).value = 0;
+    });
+}
+
+function saveHospital() {
+    const form = document.getElementById('adminForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    const id = document.getElementById('editId').value;
+    const name = document.getElementById('adminHospitalName').value;
+    const location = document.getElementById('adminLocation').value;
+    const address = document.getElementById('adminAddress').value;
+    const contact = document.getElementById('adminContact').value;
+    const distance = document.getElementById('adminDistance').value;
+    
+    const availability = {
+        "A+": { units: parseInt(document.getElementById('adminAplus').value), lastUpdated: getCurrentDate() },
+        "A-": { units: parseInt(document.getElementById('adminAminus').value), lastUpdated: getCurrentDate() },
+        "B+": { units: parseInt(document.getElementById('adminBplus').value), lastUpdated: getCurrentDate() },
+        "B-": { units: parseInt(document.getElementById('adminBminus').value), lastUpdated: getCurrentDate() },
+        "O+": { units: parseInt(document.getElementById('adminOplus').value), lastUpdated: getCurrentDate() },
+        "O-": { units: parseInt(document.getElementById('adminOminus').value), lastUpdated: getCurrentDate() },
+        "AB+": { units: parseInt(document.getElementById('adminABplus').value), lastUpdated: getCurrentDate() },
+        "AB-": { units: parseInt(document.getElementById('adminABminus').value), lastUpdated: getCurrentDate() }
+    };
+    
+    const hospital = {
+        id: id || Date.now(), // Use existing ID or generate new one
+        name,
+        address,
+        contact,
+        distance,
+        availability
+    };
+    
+    // Add or update the hospital in the data structure
+    if (!bloodBankData[location]) {
+        bloodBankData[location] = [];
+    }
+    
+    if (id) {
+        // Update existing hospital
+        const index = bloodBankData[location].findIndex(h => h.id == id);
+        if (index !== -1) {
+            bloodBankData[location][index] = hospital;
+        }
+    } else {
+        // Add new hospital
+        bloodBankData[location].push(hospital);
+    }
+    
+    // Save to localStorage
+    saveBloodBankData();
+    
+    // Refresh the admin list
+    loadAdminHospitalList();
+    
+    // Reset the form
+    resetAdminForm();
+    
+    alert(`Hospital ${id ? 'updated' : 'added'} successfully!`);
+}
+
+function editHospital(id) {
+    // Find the hospital in the data structure
+    let hospitalToEdit = null;
+    let hospitalLocation = '';
+    
+    for (const location in bloodBankData) {
+        const hospital = bloodBankData[location].find(h => h.id == id);
+        if (hospital) {
+            hospitalToEdit = hospital;
+            hospitalLocation = location;
+            break;
+        }
+    }
+    
+    if (!hospitalToEdit) {
+        alert('Hospital not found!');
+        return;
+    }
+    
+    // Populate the form with hospital data
+    document.getElementById('editId').value = hospitalToEdit.id;
+    document.getElementById('adminHospitalName').value = hospitalToEdit.name;
+    document.getElementById('adminLocation').value = hospitalLocation;
+    document.getElementById('adminAddress').value = hospitalToEdit.address;
+    document.getElementById('adminContact').value = hospitalToEdit.contact;
+    document.getElementById('adminDistance').value = hospitalToEdit.distance;
+    
+    // Set blood type values
+    document.getElementById('adminAplus').value = hospitalToEdit.availability['A+']?.units || 0;
+    document.getElementById('adminAminus').value = hospitalToEdit.availability['A-']?.units || 0;
+    document.getElementById('adminBplus').value = hospitalToEdit.availability['B+']?.units || 0;
+    document.getElementById('adminBminus').value = hospitalToEdit.availability['B-']?.units || 0;
+    document.getElementById('adminOplus').value = hospitalToEdit.availability['O+']?.units || 0;
+    document.getElementById('adminOminus').value = hospitalToEdit.availability['O-']?.units || 0;
+    document.getElementById('adminABplus').value = hospitalToEdit.availability['AB+']?.units || 0;
+    document.getElementById('adminABminus').value = hospitalToEdit.availability['AB-']?.units || 0;
+    
+    // Scroll to form
+    document.getElementById('adminForm').scrollIntoView({ behavior: 'smooth' });
+}
+
+function deleteHospital(id) {
+    if (!confirm('Are you sure you want to delete this hospital? This action cannot be undone.')) {
+        return;
+    }
+    
+    // Find and remove the hospital from the data structure
+    for (const location in bloodBankData) {
+        const index = bloodBankData[location].findIndex(h => h.id == id);
+        if (index !== -1) {
+            bloodBankData[location].splice(index, 1);
+            
+            // Remove location if empty
+            if (bloodBankData[location].length === 0) {
+                delete bloodBankData[location];
+            }
+            
+            break;
+        }
+    }
+    
+    // Save to localStorage
+    saveBloodBankData();
+    
+    // Refresh the admin list
+    loadAdminHospitalList();
+    
+    alert('Hospital deleted successfully!');
+}
+
+// Initialize the app
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved data from localStorage
+    loadBloodBankData();
+    
+    // Set up event listeners
+    document.getElementById('adminBtn').addEventListener('click', toggleAdminPanel);
+    document.getElementById('adminForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        saveHospital();
+    });
+    
+    // Initialize the admin panel as hidden
+    document.getElementById('adminPanel').style.display = 'none';
+});
+</script>
+</body>
+</html>

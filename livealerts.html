@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Blood Camps | LifeStream</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --primary-dark: #b71c1c;
+            --secondary: #388e3c;
+            --secondary-dark: #2e7d32;
+            --accent: #1976d2;
+            --accent-dark: #1565c0;
+            --text: #333;
+            --text-light: #666;
+            --bg: #f8f9fa;
+            --card-bg: #fff;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --info: #2196f3;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2rem;
+        }
+        
+        .admin-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        .admin-panel {
+            display: none;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-panel h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .admin-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .admin-form .form-group {
+            flex: 1 1 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        input, select, textarea, button {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.2);
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent-dark);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        .camps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .camp-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .camp-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .camp-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .camp-body {
+            padding: 1.5rem;
+        }
+        
+        .camp-details {
+            margin-bottom: 1rem;
+        }
+        
+        .camp-details p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .camp-details i {
+            width: 20px;
+            color: var(--primary);
+        }
+        
+        .camp-date {
+            background: #f0f0f0;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .no-camps {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            grid-column: 1 / -1;
+        }
+        
+        .admin-table {
+            margin-top: 1.5rem;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .admin-table th {
+            background-color: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 2px;
+            font-size: 0.8rem;
+        }
+        
+        .edit-btn {
+            background-color: var(--info);
+            color: white;
+        }
+        
+        .delete-btn {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--text);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .form-row {
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-form {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                width: 100%;
+            }
+            
+            .camps-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content h1 {
+                font-size: 1.5rem;
+            }
+            
+            .admin-btn {
+                position: static;
+                transform: none;
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>LifeStream Blood Camps</h1>
+            <button class="admin-btn" id="adminBtn" title="Admin Login">
+                <i class="fas fa-user-shield"></i>
+            </button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="admin-panel" id="adminPanel">
+            <h2><i class="fas fa-tools"></i> Admin Panel - Manage Blood Camps</h2>
+            
+            <form id="adminForm" class="admin-form">
+                <input type="hidden" id="editId">
+                
+                <div class="form-group">
+                    <label for="campName">Camp Name</label>
+                    <input type="text" id="campName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campLocation">Location</label>
+                    <input type="text" id="campLocation" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campAddress">Full Address</label>
+                    <textarea id="campAddress" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campDate">Date</label>
+                    <input type="date" id="campDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campTime">Time</label>
+                    <input type="time" id="campTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campContact">Contact Number</label>
+                    <input type="tel" id="campContact" pattern="[0-9]{10}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campOrganizer">Organized By</label>
+                    <input type="text" id="campOrganizer" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="campDetails">Additional Details</label>
+                    <textarea id="campDetails"></textarea>
+                </div>
+                
+                <div class="form-group" style="width: 100%; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save Camp
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="resetAdminForm()" style="margin-left: 10px;">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+            
+            <div class="admin-table">
+                <h3><i class="fas fa-list"></i> Current Blood Camps</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Camp Name</th>
+                                <th>Location</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCampList">
+                            <!-- Admin list will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <h2><i class="fas fa-calendar-alt"></i> Upcoming Blood Donation Camps</h2>
+        <p>Find blood donation camps near you and participate to save lives</p>
+        
+        <div class="camps-container" id="campsList">
+            <!-- Camps will be populated here -->
+        </div>
+    </div>
+    
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Admin Login</h3>
+                <button class="close-btn" onclick="closeAdminLoginModal()">&times;</button>
+            </div>
+            
+            <form id="adminLoginForm" onsubmit="event.preventDefault(); checkAdminPassword()">
+                <div class="form-row">
+                    <label for="adminPassword">Enter Admin Password</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdminLoginModal()">Cancel</button>
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>&copy; 2023 LifeStream Blood Bank Network. All rights reserved.</p>
+        <p>A initiative to save lives by connecting blood donors with those in need.</p>
+    </div>
+    
+    <script>
+        // Sample data - will be loaded from localStorage if available
+        let bloodCampsData = [
+            {
+                id: 1,
+                name: "Community Blood Drive",
+                location: "Hyderabad",
+                address: "City Convention Center, Hitech City, Hyderabad",
+                date: getFutureDate(5),
+                time: "09:00",
+                contact: "9876543210",
+                organizer: "Red Cross Society",
+                details: "Open to all blood types. Free health checkup for donors."
+            },
+            {
+                id: 2,
+                name: "Corporate Blood Donation Camp",
+                location: "Bangalore",
+                address: "Tech Park Auditorium, Whitefield, Bangalore",
+                date: getFutureDate(8),
+                time: "10:30",
+                contact: "8765432109",
+                organizer: "Tech Employees Association",
+                details: "Special camp for IT employees and their families."
+            },
+            {
+                id: 3,
+                name: "University Blood Donation Camp",
+                location: "Delhi",
+                address: "Delhi University Campus, North Campus, Delhi",
+                date: getFutureDate(3),
+                time: "11:00",
+                contact: "7654321098",
+                organizer: "NSS Unit - Delhi University",
+                details: "Students and faculty are encouraged to participate."
+            }
+        ];
+        
+        // Admin password (in a real app, this would be securely stored and verified server-side)
+        const ADMIN_PASSWORD = "admin123";
+        
+        // Helper function to get future date
+        function getFutureDate(days) {
+            const date = new Date();
+            date.setDate(date.getDate() + days);
+            return date.toISOString().split('T')[0];
+        }
+        
+        // Helper function to format date
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+        
+        // Helper function to format time
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+        
+        // Helper functions for localStorage
+        function saveBloodCampsData() {
+            localStorage.setItem('bloodCampsData', JSON.stringify(bloodCampsData));
+        }
+        
+        function loadBloodCampsData() {
+            const savedData = localStorage.getItem('bloodCampsData');
+            if (savedData) {
+                bloodCampsData = JSON.parse(savedData);
+            }
+        }
+        
+        // Display blood camps
+        function displayBloodCamps() {
+            const container = document.getElementById('campsList');
+            
+            if (bloodCampsData.length === 0) {
+                container.innerHTML = `
+                    <div class="no-camps">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                        <h3>No upcoming blood camps scheduled</h3>
+                        <p>Check back later for updates on upcoming blood donation camps</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort camps by date (soonest first)
+            const sortedCamps = [...bloodCampsData].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            let html = '';
+            sortedCamps.forEach(camp => {
+                const campDate = new Date(camp.date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                // Skip past camps
+                if (campDate < today) return;
+                
+                html += `
+                    <div class="camp-card">
+                        <div class="camp-header">
+                            <h3>${camp.name}</h3>
+                        </div>
+                        <div class="camp-body">
+                            <div class="camp-date">
+                                <i class="fas fa-calendar-day"></i> ${formatDate(camp.date)} at ${formatTime(camp.time)}
+                            </div>
+                            <div class="camp-details">
+                                <p><i class="fas fa-map-marker-alt"></i> ${camp.location}</p>
+                                <p><i class="fas fa-address-card"></i> ${camp.address}</p>
+                                <p><i class="fas fa-phone"></i> ${camp.contact}</p>
+                                <p><i class="fas fa-users"></i> Organized by: ${camp.organizer}</p>
+                                ${camp.details ? `<p><i class="fas fa-info-circle"></i> ${camp.details}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (html === '') {
+                container.innerHTML = `
+                    <div class="no-camps">
+                        <i class="fas fa-calendar-times" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                        <h3>No upcoming blood camps scheduled</h3>
+                        <p>Check back later for updates on upcoming blood donation camps</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = html;
+            }
+        }
+        
+        // Admin functions
+        function toggleAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel.style.display === 'block') {
+                adminPanel.style.display = 'none';
+            } else {
+                document.getElementById('adminLoginModal').style.display = 'flex';
+            }
+        }
+        
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
+        }
+        
+        function checkAdminPassword() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('adminPanel').style.display = 'block';
+                closeAdminLoginModal();
+                loadAdminCampList();
+            } else {
+                alert('Incorrect admin password. Please try again.');
+            }
+        }
+        
+        function loadAdminCampList() {
+            const container = document.getElementById('adminCampList');
+            let html = '';
+            
+            // Sort camps by date (soonest first)
+            const sortedCamps = [...bloodCampsData].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            sortedCamps.forEach(camp => {
+                html += `
+                    <tr>
+                        <td>${camp.name}</td>
+                        <td>${camp.location}</td>
+                        <td>${formatDate(camp.date)}</td>
+                        <td>
+                            <button class="action-btn edit-btn" onclick="editCamp('${camp.id}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteCamp('${camp.id}')">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = html || '<tr><td colspan="4" style="text-align: center;">No blood camps added yet</td></tr>';
+        }
+        
+        function resetAdminForm() {
+            document.getElementById('adminForm').reset();
+            document.getElementById('editId').value = '';
+            document.getElementById('campName').focus();
+        }
+        
+        function saveCamp() {
+            const form = document.getElementById('adminForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            const id = document.getElementById('editId').value;
+            const name = document.getElementById('campName').value;
+            const location = document.getElementById('campLocation').value;
+            const address = document.getElementById('campAddress').value;
+            const date = document.getElementById('campDate').value;
+            const time = document.getElementById('campTime').value;
+            const contact = document.getElementById('campContact').value;
+            const organizer = document.getElementById('campOrganizer').value;
+            const details = document.getElementById('campDetails').value;
+            
+            const camp = {
+                id: id || Date.now(), // Use existing ID or generate new one
+                name,
+                location,
+                address,
+                date,
+                time,
+                contact,
+                organizer,
+                details
+            };
+            
+            if (id) {
+                // Update existing camp
+                const index = bloodCampsData.findIndex(c => c.id == id);
+                if (index !== -1) {
+                    bloodCampsData[index] = camp;
+                }
+            } else {
+                // Add new camp
+                bloodCampsData.push(camp);
+            }
+            
+            // Save to localStorage
+            saveBloodCampsData();
+            
+            // Refresh the displays
+            loadAdminCampList();
+            displayBloodCamps();
+            
+            // Reset the form
+            resetAdminForm();
+            
+            alert(`Blood camp ${id ? 'updated' : 'added'} successfully!`);
+        }
+        
+        function editCamp(id) {
+            const camp = bloodCampsData.find(c => c.id == id);
+            if (!camp) {
+                alert('Camp not found!');
+                return;
+            }
+            
+            // Populate the form with camp data
+            document.getElementById('editId').value = camp.id;
+            document.getElementById('campName').value = camp.name;
+            document.getElementById('campLocation').value = camp.location;
+            document.getElementById('campAddress').value = camp.address;
+            document.getElementById('campDate').value = camp.date;
+            document.getElementById('campTime').value = camp.time;
+            document.getElementById('campContact').value = camp.contact;
+            document.getElementById('campOrganizer').value = camp.organizer;
+            document.getElementById('campDetails').value = camp.details || '';
+            
+            // Scroll to form
+            document.getElementById('adminForm').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function deleteCamp(id) {
+            if (!confirm('Are you sure you want to delete this blood camp? This action cannot be undone.')) {
+                return;
+            }
+            
+            const index = bloodCampsData.findIndex(c => c.id == id);
+            if (index !== -1) {
+                bloodCampsData.splice(index, 1);
+                
+                // Save to localStorage
+                saveBloodCampsData();
+                
+                // Refresh the displays
+                loadAdminCampList();
+                displayBloodCamps();
+                
+                alert('Blood camp deleted successfully!');
+            }
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved data from localStorage
+            loadBloodCampsData();
+            
+            // Display blood camps
+            displayBloodCamps();
+            
+            // Set up event listeners
+            document.getElementById('adminBtn').addEventListener('click', toggleAdminPanel);
+            document.getElementById('adminForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveCamp();
+            });
+            
+            // Initialize the admin panel as hidden
+            document.getElementById('adminPanel').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Blood Bank | LifeStream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      :root {
+          --primary: #d32f2f;
+          --primary-dark: #b71c1c;
+          --secondary: #388e3c;
+          --secondary-dark: #2e7d32;
+          --accent: #1976d2;
+          --accent-dark: #1565c0;
+          --text: #333;
+          --text-light: #666;
+          --bg: #f8f9fa;
+          --card-bg: #fff;
+          --success: #4caf50;
+          --warning: #ff9800;
+          --danger: #f44336;
+      }
+      
+      body {
+          font-family: 'Inter', sans-serif;
+          margin: 0;
+          background: var(--bg);
+          color: var(--text);
+          line-height: 1.6;
+      }
+      
+      .hero {
+          background: linear-gradient(rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), 
+                      url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+          background-size: cover;
+          background-position: center;
+          color: white;
+          text-align: center;
+          padding: 4rem 1rem;
+          margin-bottom: 2rem;
+      }
+      
+      .hero h1 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+          font-weight: 700;
+      }
+      
+      .hero p {
+          font-size: 1.2rem;
+          max-width: 800px;
+          margin: 0 auto 2rem;
+      }
+      
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+      }
+      
+      .tab-container {
+          display: flex;
+          margin-bottom: 25px;
+          position: relative;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          padding: 0 15px;
+      }
+      
+      .tab {
+          padding: 15px 25px;
+          cursor: pointer;
+          font-weight: 500;
+          color: var(--text-light);
+          position: relative;
+          transition: all 0.3s ease;
+      }
+      
+      .tab:hover {
+          color: var(--primary);
+      }
+      
+      .tab.active {
+          color: var(--primary);
+          font-weight: 600;
+      }
+      
+      .tab.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: var(--primary);
+      }
+      
+      .tab i {
+          margin-right: 8px;
+      }
+      
+      .tab-content {
+          display: none;
+          padding: 30px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          animation: fadeIn 0.5s ease;
+      }
+      
+      @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+      
+      .tab-content.active {
+          display: block;
+      }
+      
+      .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 25px;
+      }
+      
+      .section-header h2 {
+          font-size: 1.5rem;
+          color: var(--text);
+      }
+      
+      .section-header p {
+          color: var(--text-light);
+          font-size: 0.9rem;
+      }
+      
+      .blood-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 20px;
+          margin-top: 20px;
+      }
+      
+      .blood-card {
+          background: var(--card-bg);
+          border-radius: 8px;
+          padding: 20px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          transition: transform 0.3s ease;
+          border-top: 4px solid var(--primary);
+      }
+      
+      .blood-card:hover {
+          transform: translateY(-5px);
+      }
+      
+      .blood-type {
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: var(--primary);
+          margin-bottom: 5px;
+      }
+      
+      .blood-status {
+          font-size: 0.9rem;
+          color: var(--text-light);
+          margin-bottom: 15px;
+      }
+      
+      .blood-input {
+          width: 80px;
+          text-align: center;
+          padding: 10px;
+          margin: 10px auto;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          font-size: 1rem;
+      }
+      
+      .btn {
+          padding: 10px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-weight: 500;
+          font-size: 0.9rem;
+          transition: all 0.3s ease;
+      }
+      
+      .btn-primary {
+          background: var(--primary);
+          color: white;
+      }
+      
+      .btn-primary:hover {
+          background: var(--primary-dark);
+      }
+      
+      .btn-secondary {
+          background: var(--secondary);
+          color: white;
+      }
+      
+      .btn-secondary:hover {
+          background: var(--secondary-dark);
+      }
+      
+      .btn-accent {
+          background: var(--accent);
+          color: white;
+      }
+      
+      .btn-accent:hover {
+          background: var(--accent-dark);
+      }
+      
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+          background: white;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      th, td {
+          padding: 15px;
+          text-align: left;
+          border-bottom: 1px solid #eee;
+      }
+      
+      th {
+          background: #f5f5f5;
+          font-weight: 600;
+      }
+      
+      .status {
+          display: inline-block;
+          padding: 5px 10px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 500;
+      }
+      
+      .status-pending {
+          background: rgba(255, 152, 0, 0.1);
+          color: var(--warning);
+      }
+      
+      .status-fulfilled {
+          background: rgba(76, 175, 80, 0.1);
+          color: var(--success);
+      }
+      
+      .status-rejected {
+          background: rgba(244, 67, 54, 0.1);
+          color: var(--danger);
+      }
+      
+      .action-btns {
+          display: flex;
+          gap: 8px;
+      }
+      
+      .badge {
+          display: inline-block;
+          padding: 3px 8px;
+          border-radius: 20px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          background: var(--primary);
+          color: white;
+          margin-left: 5px;
+      }
+      
+      .empty-state {
+          text-align: center;
+          padding: 40px;
+          color: var(--text-light);
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      
+      .empty-state i {
+          font-size: 3rem;
+          color: #ddd;
+          margin-bottom: 20px;
+      }
+      
+      .empty-state h3 {
+          font-weight: 500;
+          margin-bottom: 10px;
+          color: var(--text);
+      }
+      
+      @media (max-width: 768px) {
+          .blood-grid {
+              grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .tab {
+              padding: 12px 15px;
+              font-size: 0.9rem;
+          }
+          
+          .tab i {
+              margin-right: 5px;
+          }
+      }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Hospital Blood Bank Management</h1>
+        <p>Manage blood inventory, requests, and donation drives in one centralized platform</p>
+    </div>
+    
+    <div class="container">
+        <div class="tab-container">
+            <div class="tab active" onclick="openTab('stock')">
+                <i class="fas fa-tint"></i> Blood Stock
+            </div>
+            <div class="tab" onclick="openTab('requests')">
+                <i class="fas fa-hand-holding-medical"></i> Requests
+                <span class="badge">3</span>
+            </div>
+            <div class="tab" onclick="openTab('donations')">
+                <i class="fas fa-calendar-alt"></i> Donation Drives
+            </div>
+        </div>
+        
+        <!-- Blood Stock Management -->
+        <div id="stock" class="tab-content active">
+            <div class="section-header">
+                <div>
+                    <h2>Blood Inventory</h2>
+                    <p>Current stock status visible to patients on the Find Blood page</p>
+                </div>
+                <button class="btn btn-accent">
+                    <i class="fas fa-download"></i> Export Report
+                </button>
+            </div>
+            
+            <div class="blood-grid">
+                <div class="blood-card">
+                    <div class="blood-type">A+</div>
+                    <div class="blood-status">Last updated: Today</div>
+                    <input type="number" class="blood-input" value="15" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('A+')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">B+</div>
+                    <div class="blood-status">Last updated: Today</div>
+                    <input type="number" class="blood-input" value="8" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('B+')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">O+</div>
+                    <div class="blood-status">Last updated: Yesterday</div>
+                    <input type="number" class="blood-input" value="12" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('O+')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">AB+</div>
+                    <div class="blood-status">Last updated: 2 days ago</div>
+                    <input type="number" class="blood-input" value="5" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('AB+')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">A-</div>
+                    <div class="blood-status">Last updated: Today</div>
+                    <input type="number" class="blood-input" value="3" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('A-')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">B-</div>
+                    <div class="blood-status">Last updated: 3 days ago</div>
+                    <input type="number" class="blood-input" value="2" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('B-')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">O-</div>
+                    <div class="blood-status">Last updated: Yesterday</div>
+                    <input type="number" class="blood-input" value="4" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('O-')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div class="blood-type">AB-</div>
+                    <div class="blood-status">Last updated: 1 week ago</div>
+                    <input type="number" class="blood-input" value="1" min="0">
+                    <button class="btn btn-primary" onclick="updateStock('AB-')">
+                        <i class="fas fa-sync-alt"></i> Update
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="margin-bottom: 15px; color: var(--text);">Inventory Summary</h3>
+                <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px; margin: 10px; padding: 15px; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Total Units</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--success);">50</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px; margin: 10px; padding: 15px; background: rgba(25, 118, 210, 0.1); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Critical Types</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--accent);">2</div>
+                    </div>
+                    <div style="flex: 1; min-width: 200px; margin: 10px; padding: 15px; background: rgba(244, 67, 54, 0.1); border-radius: 8px;">
+                        <div style="font-size: 0.9rem; color: var(--text-light);">Expiring Soon</div>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--danger);">8</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Blood Requests -->
+        <div id="requests" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h2>Blood Requests</h2>
+                    <p>Manage requests from patients and other hospitals</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="position: relative;">
+                        <input type="text" placeholder="Search requests..." style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; padding-right: 35px;">
+                        <i class="fas fa-search" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: var(--text-light);"></i>
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-filter"></i> Filter
+                    </button>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Blood Type</th>
+                        <th>Units</th>
+                        <th>Patient</th>
+                        <th>Hospital</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#REQ-1001</td>
+                        <td><strong>B+</strong></td>
+                        <td>2</td>
+                        <td>John Smith</td>
+                        <td>City General</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn btn-primary" style="padding: 8px 12px;" onclick="fulfillRequest('REQ-1001')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn" style="padding: 8px 12px; background: #f5f5f5;" onclick="rejectRequest('REQ-1001')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#REQ-1002</td>
+                        <td><strong>O-</strong></td>
+                        <td>3</td>
+                        <td>Maria Garcia</td>
+                        <td>Children's Hospital</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn btn-primary" style="padding: 8px 12px;" onclick="fulfillRequest('REQ-1002')">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn" style="padding: 8px 12px; background: #f5f5f5;" onclick="rejectRequest('REQ-1002')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#REQ-1003</td>
+                        <td><strong>AB+</strong></td>
+                        <td>1</td>
+                        <td>Robert Chen</td>
+                        <td>University Medical</td>
+                        <td><span class="status status-fulfilled">Fulfilled</span></td>
+                        <td>
+                            <button class="btn" style="padding: 8px 12px; background: #f5f5f5;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Donation Drives -->
+        <div id="donations" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <h2>Donation Drives</h2>
+                    <p>Schedule and manage blood donation events</p>
+                </div>
+                <button class="btn btn-primary" onclick="scheduleDrive()">
+                    <i class="fas fa-plus"></i> New Drive
+                </button>
+            </div>
+            
+            <div class="blood-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                <div class="blood-card" style="border-top-color: var(--accent);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="font-size: 1.2rem;">Main Hospital Campus</h3>
+                        <span style="font-size: 0.8rem; background: var(--accent); color: white; padding: 3px 8px; border-radius: 20px;">Upcoming</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <i class="fas fa-calendar-alt" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>15 June 2023</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <i class="fas fa-clock" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>9:00 AM - 4:00 PM</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <i class="fas fa-users" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>24 donors registered</span>
+                    </div>
+                    <button class="btn" style="width: 100%; background: #f5f5f5;">
+                        <i class="fas fa-eye"></i> View Details
+                    </button>
+                </div>
+                
+                <div class="blood-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="font-size: 1.2rem;">Community Center</h3>
+                        <span style="font-size: 0.8rem; background: var(--success); color: white; padding: 3px 8px; border-radius: 20px;">Completed</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <i class="fas fa-calendar-alt" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>30 May 2023</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <i class="fas fa-clock" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>10:00 AM - 5:00 PM</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <i class="fas fa-users" style="color: var(--text-light); margin-right: 10px;"></i>
+                        <span>42 donors participated</span>
+                    </div>
+                    <button class="btn" style="width: 100%; background: #f5f5f5;">
+                        <i class="fas fa-file-alt"></i> View Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation
+        function openTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            
+            const tabButtons = document.querySelectorAll('.tab');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        // Update blood stock
+        function updateStock(bloodType) {
+            const card = event.target.closest('.blood-card');
+            const input = card.querySelector('.blood-input');
+            const units = input.value;
+            
+            // Update status text
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            card.querySelector('.blood-status').textContent = `Last updated: ${timeString}`;
+            
+            // Show confirmation
+            alert(`${bloodType} stock updated to ${units} units`);
+            
+            // Update localStorage to sync with findblood.html
+            let bloodStock = JSON.parse(localStorage.getItem('bloodStock')) || {};
+            bloodStock[bloodType] = units;
+            localStorage.setItem('bloodStock', JSON.stringify(bloodStock));
+        }
+
+        // Request management
+        function fulfillRequest(requestId) {
+            const row = event.target.closest('tr');
+            row.querySelector('.status').className = 'status status-fulfilled';
+            row.querySelector('.status').textContent = 'Fulfilled';
+            
+            // Disable action buttons
+            const actionBtns = row.querySelectorAll('.action-btns button');
+            actionBtns.forEach(btn => {
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+            });
+            
+            alert(`Request ${requestId} has been fulfilled`);
+        }
+
+        function rejectRequest(requestId) {
+            if(confirm('Are you sure you want to reject this request?')) {
+                const row = event.target.closest('tr');
+                row.querySelector('.status').className = 'status status-rejected';
+                row.querySelector('.status').textContent = 'Rejected';
+                
+                // Disable action buttons
+                const actionBtns = row.querySelectorAll('.action-btns button');
+                actionBtns.forEach(btn => {
+                    btn.style.opacity = '0.5';
+                    btn.style.pointerEvents = 'none';
+                });
+                
+                alert(`Request ${requestId} has been rejected`);
+            }
+        }
+
+        // Donation drive
+        function scheduleDrive() {
+            const date = prompt('Enter drive date (e.g., June 25, 2023):');
+            if (!date) return;
+            
+            const location = prompt('Enter location:');
+            if (!location) return;
+            
+            const time = prompt('Enter time range (e.g., 9:00 AM - 4:00 PM):');
+            
+            alert(`New drive scheduled for ${date} at ${location} (${time})`);
+        }
+
+        // Initialize with sample data if not exists
+        if(!localStorage.getItem('bloodStock')) {
+            const initialStock = {
+                "A+": 15, "A-": 3, "B+": 8, "B-": 2,
+                "O+": 12, "O-": 4, "AB+": 5, "AB-": 1
+            };
+            localStorage.setItem('bloodStock', JSON.stringify(initialStock));
+        }
+    </script>
+</body>
+</html>

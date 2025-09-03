@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Donation System | LifeStream</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #d32f2f;
+      --primary-dark: #b71c1c;
+      --secondary: #388e3c;
+      --secondary-dark: #2e7d32;
+      --accent: #1976d2;
+      --accent-dark: #1565c0;
+      --text: #333;
+      --text-light: #666;
+      --bg: #f8f9fa;
+      --card-bg: #fff;
+      --success: #4caf50;
+      --warning: #ff9800;
+      --danger: #f44336;
+      --info: #2196F3;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+    }
+    
+    .logo {
+      font-size: 2rem;
+    }
+    
+    .admin-btn {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .admin-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .hero {
+      background: linear-gradient(rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), 
+                  url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+    
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    .donation-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .step-card {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .step-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .step-icon {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .donation-form {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+    }
+    
+    /* Admin Panel Styles */
+    #adminPanel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .admin-panel-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .donors-list {
+      display: grid;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    
+    .donor-card {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .donor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .donor-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .status-active {
+      background: rgba(76, 175, 80, 0.1);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+    
+    .status-inactive {
+      background: rgba(255, 152, 0, 0.1);
+      color: var(--warning);
+      border: 1px solid var(--warning);
+    }
+    
+    .btn-success {
+      background: var(--success);
+    }
+    
+    .btn-warning {
+      background: var(--warning);
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+    }
+    
+    .btn-info {
+      background: var(--info);
+    }
+    
+    .admin-controls {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .search-box {
+      flex-grow: 1;
+      min-width: 250px;
+    }
+    
+    .stats-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      border-top: 4px solid var(--primary);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0.5rem 0;
+    }
+    
+    /* Admin Login Modal */
+    #adminLoginModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1001;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .login-modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .login-header i {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--success);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      z-index: 1002;
+      display: none;
+    }
+    
+    .toast.error {
+      background: var(--danger);
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .donation-steps {
+        grid-template-columns: 1fr;
+      }
+      
+      .donor-actions button {
+        width: 100%;
+      }
+      
+      .admin-controls {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-tint"></i>
+      </div>
+      <h1>LifeStream Blood Donation</h1>
+      <button class="admin-btn" id="adminButton" onclick="showAdminLogin()">
+        <i class="fas fa-user-shield"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="hero">
+      <h2 style="font-size: 2rem; margin-bottom: 1rem;">Give the Gift of Life</h2>
+      <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">A single donation can save up to 3 lives. Join our community of heroes today.</p>
+      <a href="#donate-now" class="btn" style="margin-top: 2rem;">Become a Donor</a>
+    </div>
+
+    <section class="donation-process">
+      <h2 style="text-align: center; margin-bottom: 1rem;">The Donation Process</h2>
+      <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem; color: var(--text-light);">Donating blood is safe, simple, and takes less than an hour from start to finish.</p>
+      
+      <div class="donation-steps">
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-clipboard-check"></i>
+          </div>
+          <h3>1. Registration</h3>
+          <p>Complete a quick health history questionnaire and provide identification.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-stethoscope"></i>
+          </div>
+          <h3>2. Health Check</h3>
+          <p>We'll check your temperature, pulse, blood pressure and hemoglobin level.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-tint"></i>
+          </div>
+          <h3>3. Donation</h3>
+          <p>The actual donation takes just 8-10 minutes for whole blood donation.</p>
+        </div>
+        
+        <div class="step-card">
+          <div class="step-icon">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <h3>4. Refreshment</h3>
+          <p>Enjoy snacks and drinks while you rest for 10-15 minutes before leaving.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="donate-now" class="donation-form">
+      <h2 style="text-align: center; margin-bottom: 2rem;">Register as a Donor</h2>
+      
+      <form id="donorForm">
+        <div class="form-group">
+          <label for="fullName">Full Name *</label>
+          <input type="text" id="fullName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="bloodType">Blood Type *</label>
+          <select id="bloodType" required>
+            <option value="">Select your blood type</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="location">Preferred Donation Center *</label>
+          <select id="location" required>
+            <option value="">Select nearest center</option>
+            <option value="Bangalore Central">Bangalore Central</option>
+            <option value="Chennai South">Chennai South</option>
+            <option value="Delhi North">Delhi North</option>
+            <option value="Mumbai West">Mumbai West</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="availability">Preferred Donation Days/Times</label>
+          <select id="availability" multiple>
+            <option value="Weekday Mornings">Weekday Mornings</option>
+            <option value="Weekday Afternoons">Weekday Afternoons</option>
+            <option value="Weekday Evenings">Weekday Evenings</option>
+            <option value="Weekend Mornings">Weekend Mornings</option>
+            <option value="Weekend Afternoons">Weekend Afternoons</option>
+          </select>
+          <small style="display: block; margin-top: 0.3rem; color: var(--text-light);">Hold Ctrl/Cmd to select multiple options</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="lastDonation">Last Donation Date (if any)</label>
+          <input type="date" id="lastDonation">
+        </div>
+        
+        <div class="form-group">
+          <input type="checkbox" id="consent" required>
+          <label for="consent" style="display: inline;">I confirm that all information provided is accurate and I meet eligibility criteria *</label>
+        </div>
+        
+        <button type="submit">Submit Donor Registration</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Admin Panel -->
+  <div id="adminPanel">
+    <div class="admin-panel-content">
+      <div class="admin-header">
+        <h2>Donor Management System</h2>
+        <button onclick="closeAdminPanel()" class="btn-danger">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
+      
+      <div class="stats-card">
+        <h3>Donation Center Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div>Total Donors</div>
+            <div class="stat-value" id="totalDonors">0</div>
+          </div>
+          <div class="stat-item">
+            <div>Active Donors</div>
+            <div class="stat-value" id="activeDonors">0</div>
+          </div>
+          <div class="stat-item">
+            <div>Total Donations</div>
+            <div class="stat-value" id="totalDonations">0</div>
+          </div>
+          <div class="stat-item">
+            <div>Blood Collected</div>
+            <div class="stat-value" id="totalBlood">0ml</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="admin-controls">
+        <div class="search-box">
+          <input type="text" id="searchDonors" placeholder="Search donors by name, email or phone..." style="width: 100%;">
+        </div>
+        <div class="filter-controls">
+          <select id="filterStatus" onchange="filterDonors()">
+            <option value="all">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+          <select id="filterBloodType" onchange="filterDonors()">
+            <option value="all">All Blood Types</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+          </select>
+          <select id="filterLocation" onchange="filterDonors()">
+            <option value="all">All Locations</option>
+            <option value="Bangalore Central">Bangalore</option>
+            <option value="Chennai South">Chennai</option>
+            <option value="Delhi North">Delhi</option>
+            <option value="Mumbai West">Mumbai</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="donors-list" id="donorsList">
+        <!-- Donors will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="adminLoginModal">
+    <div class="login-modal-content">
+      <div class="login-header">
+        <i class="fas fa-user-shield"></i>
+        <h2>Admin Login</h2>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="adminPassword">Password *</label>
+          <input type="password" id="adminPassword" required placeholder="Enter admin password">
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-danger" onclick="closeModal('adminLoginModal')">Cancel</button>
+          <button type="submit" class="btn-success">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ADMIN PASSWORD - Change this in production!
+    const ADMIN_PASSWORD = "admin123";
+    
+    // Initialize bloodDonors in localStorage if not exists
+    if (!localStorage.getItem('bloodDonors')) {
+      localStorage.setItem('bloodDonors', JSON.stringify([]));
+    }
+
+    // Show admin login modal
+    function showAdminLogin() {
+      document.getElementById('adminLoginModal').style.display = 'flex';
+    }
+
+    // Handle login form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const password = document.getElementById('adminPassword').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        localStorage.setItem('isAdmin', 'true');
+        closeModal('adminLoginModal');
+        viewDonors();
+        showToast('Admin access granted', 'success');
+      } else {
+        showToast('Incorrect password', 'error');
+      }
+      
+      this.reset();
+    });
+
+    // Form submission for donor registration
+    document.getElementById('donorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const donorData = {
+        id: 'donor-' + Date.now(),
+        name: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        bloodType: document.getElementById('bloodType').value,
+        location: document.getElementById('location').value,
+        availability: Array.from(document.getElementById('availability').selectedOptions)
+                         .map(option => option.value),
+        lastDonation: document.getElementById('lastDonation').value || null,
+        registrationDate: new Date().toISOString(),
+        status: "Active",
+        donations: []
+      };
+      
+      // Save to localStorage
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      donors.push(donorData);
+      localStorage.setItem('bloodDonors', JSON.stringify(donors));
+      
+      // Show success message
+      showToast(`Thank you, ${donorData.name}! Your donor registration is complete.`);
+      
+      // Reset form
+      this.reset();
+    });
+
+    // Admin: View all donors with filtering
+    function viewDonors() {
+      if (localStorage.getItem('isAdmin') !== 'true') {
+        showAdminLogin();
+        return;
+      }
+      
+      document.getElementById('adminPanel').style.display = 'flex';
+      filterDonors();
+    }
+
+    // Filter and display donors
+    function filterDonors() {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const searchTerm = document.getElementById('searchDonors').value.toLowerCase();
+      const statusFilter = document.getElementById('filterStatus').value;
+      const bloodTypeFilter = document.getElementById('filterBloodType').value;
+      const locationFilter = document.getElementById('filterLocation').value;
+      
+      const filteredDonors = donors.filter(donor => {
+        const matchesSearch = donor.name.toLowerCase().includes(searchTerm) || 
+                            donor.email.toLowerCase().includes(searchTerm) || 
+                            donor.phone.includes(searchTerm);
+        const matchesStatus = statusFilter === 'all' || donor.status === statusFilter;
+        const matchesBloodType = bloodTypeFilter === 'all' || donor.bloodType === bloodTypeFilter;
+        const matchesLocation = locationFilter === 'all' || donor.location === locationFilter;
+        
+        return matchesSearch && matchesStatus && matchesBloodType && matchesLocation;
+      });
+      
+      updateStats(donors);
+      displayDonors(filteredDonors);
+    }
+
+    // Update statistics
+    function updateStats(donors) {
+      const activeDonors = donors.filter(d => d.status === 'Active').length;
+      const totalDonations = donors.reduce((sum, donor) => sum + donor.donations.length, 0);
+      const totalBlood = donors.reduce((sum, donor) => {
+        return sum + donor.donations.reduce((donorSum, donation) => {
+          return donorSum + parseInt(donation.volume) || 0;
+        }, 0);
+      }, 0);
+      
+      document.getElementById('totalDonors').textContent = donors.length;
+      document.getElementById('activeDonors').textContent = activeDonors;
+      document.getElementById('totalDonations').textContent = totalDonations;
+      document.getElementById('totalBlood').textContent = totalBlood + 'ml';
+    }
+
+    // Display donors in the admin panel
+    function displayDonors(donors) {
+      const donorsList = document.getElementById('donorsList');
+      
+      if (donors.length === 0) {
+        donorsList.innerHTML = '<p style="text-align: center; padding: 2rem;">No donor registrations found matching your criteria</p>';
+        return;
+      }
+      
+      let donorsHTML = '';
+      
+      donors.forEach((donor, index) => {
+        // Format last donation date if exists
+        const lastDonationDate = donor.lastDonation 
+          ? new Date(donor.lastDonation).toLocaleDateString() 
+          : 'Never donated';
+        
+        // Format registration date
+        const registrationDate = new Date(donor.registrationDate).toLocaleDateString();
+        
+        donorsHTML += `
+          <div class="donor-card">
+            <div class="donor-header">
+              <div>
+                <h3 style="margin: 0;">${donor.name}</h3>
+                <p style="margin: 0.3rem 0; color: var(--text-light);">
+                  ${donor.bloodType} | ${donor.location}
+                </p>
+              </div>
+              <span class="status-badge status-${donor.status.toLowerCase()}">
+                ${donor.status}
+              </span>
+            </div>
+            
+            <p><strong>Contact:</strong> ${donor.phone} | ${donor.email}</p>
+            <p><strong>Preferred Availability:</strong> ${donor.availability.join(', ')}</p>
+            <p><strong>Registered:</strong> ${registrationDate}</p>
+            <p><strong>Last Donation:</strong> ${lastDonationDate}</p>
+            
+            <div class="donation-history">
+              <p><strong>Donation History (${donor.donations.length}):</strong></p>
+              ${donor.donations.length > 0 ? `
+                ${donor.donations.map(donation => `
+                  <div class="donation-item">
+                    <span>${new Date(donation.date).toLocaleDateString()}</span>
+                    <span>${donation.volume}</span>
+                  </div>
+                `).join('')}
+              ` : '<p>No donations recorded yet</p>'}
+            </div>
+            
+            <div class="donor-actions">
+              <button class="btn-success" onclick="updateDonorStatus(${index}, 'Active')">
+                <i class="fas fa-check"></i> Active
+              </button>
+              <button class="btn-warning" onclick="updateDonorStatus(${index}, 'Inactive')">
+                <i class="fas fa-pause"></i> Inactive
+              </button>
+              <button class="btn-danger" onclick="deleteDonor(${index})">
+                <i class="fas fa-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      donorsList.innerHTML = donorsHTML;
+    }
+
+    // Admin: Update donor status
+    function updateDonorStatus(index, status) {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      donors[index].status = status;
+      localStorage.setItem('bloodDonors', JSON.stringify(donors));
+      filterDonors(); // Refresh view with current filters
+      showToast(`Donor status updated to ${status}`);
+    }
+
+    // Admin: Delete donor
+    function deleteDonor(index) {
+      if (confirm('Are you sure you want to remove this donor?')) {
+        const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+        donors.splice(index, 1);
+        localStorage.setItem('bloodDonors', JSON.stringify(donors));
+        filterDonors(); // Refresh view with current filters
+        showToast('Donor removed successfully');
+      }
+    }
+
+    // Close modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    function closeAdminPanel() {
+      document.getElementById('adminPanel').style.display = 'none';
+    }
+
+    // Show toast notification
+    function showToast(message, type = '') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast';
+      if (type) toast.classList.add(type);
+      toast.style.display = 'block';
+      
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+
+    // Initialize on load
+    window.onload = function() {
+      // Set up search input event listener
+      document.getElementById('searchDonors').addEventListener('input', filterDonors);
+    };
+  </script>
+</body>
+</html>
