@@ -21,7 +21,7 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 - 🔲 Automated testing (Selenium/Unit Testing) → pending  
 ## Tech Stack
 - *Frontend:* HTML, CSS, JavaScript  
-- *Backend:* Node.js / Python Flask (to be decided)  
+- *Backend:* Node.js,Express.js
 - *Database:* MySQL / MongoDB  
 - *Version Control:* GitHub  
 - *CI/CD:* Jenkins  
