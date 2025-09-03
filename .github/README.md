@@ -14,7 +14,7 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 ## Project Progress (as of now)
 - ✅ Frontend pages completed (HTML, CSS, JS)  
 - ✅ GitHub repository created & code pushed  
-- ✅ Jenkins setup started (GitHub integration in progress)  
+- ✅ Jenkins setup started (GitHub integration is done)  
 - 🔲 Backend APIs (Node.js / Python Flask) → in progress  
 - 🔲 Database setup (MySQL/MongoDB) → pending  
 - 🔲 Docker + Kubernetes deployment → pending  
@@ -31,10 +31,9 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 - *Testing Tools:* Selenium, Postman, Manual Testing  
 ## Next Steps
 1. Complete *backend APIs* for donor registration and hospital blood stock.  
-2. Connect *database* (MySQL/MongoDB) with backend.  
-3. Extend Jenkins pipeline with build + test stages.  
-4. Deploy application using *Docker & Kubernetes*.  
-5. Cloud deployment on *AWS*.  
+2. Connect *database* (MySQL/MongoDB) with backend.   
+3. Deploy application using *Docker & Kubernetes*.  
+4. Cloud deployment on *AWS*.  
 ## Screenshots
  <img width="1902" height="868" alt="image" src="https://github.com/user-attachments/assets/a67cc44e-14be-4d5b-9de3-2bbcc732f90a" />
  <img width="1890" height="883" alt="Screenshot 2025-08-27 111520" src="https://github.com/user-attachments/assets/ca4b61cf-f583-425b-9d26-c1c6bf2af23a" />
