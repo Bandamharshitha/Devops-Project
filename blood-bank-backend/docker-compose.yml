@@ -1,0 +1,32 @@
+services:
+  backend:
+    build: .
+    container_name: bloodbank-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=bloodbank
+      - DB_PORT=3306
+    depends_on:
+      - db
+    command: >
+      sh -c "until nc -z db 3306; do echo 'Waiting for DB...'; sleep 2; done && npm start"
+
+  db:
+    image: mysql:8.0
+    container_name: bloodbank-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: bloodbank
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db_data:
