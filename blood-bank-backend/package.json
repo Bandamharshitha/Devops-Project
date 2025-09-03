@@ -1,0 +1,13 @@
+{
+  "name": "blood-bank-backend",
+  "version": "1.0.0",
+  "description": "Blood Bank Backend with Docker & MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.9.2"
+  }
+}
