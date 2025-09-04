@@ -22,7 +22,7 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 ## Tech Stack
 - *Frontend:* HTML, CSS, JavaScript  
 - *Backend:* Node.js,Express.js
-- *Database:* MySQL / MongoDB  
+- *Database:* MongoDB  
 - *Version Control:* GitHub  
 - *CI/CD:* Jenkins  
 - *Containerization:* Docker  
@@ -31,7 +31,7 @@ Our project aims to build a *real-time dashboard* that shows available donors/ho
 - *Testing Tools:* Selenium, Postman, Manual Testing  
 ## Next Steps
 1. Complete *backend APIs* for donor registration and hospital blood stock.  
-2. Connect *database* (MySQL/MongoDB) with backend.   
+2. Connect *database* MongoDB with backend.   
 3. Deploy application using *Docker & Kubernetes*.  
 4. Cloud deployment on *AWS*.  
 ## Screenshots
