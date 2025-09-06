@@ -148,12 +148,36 @@
       border-radius: 10px;
       padding: 2rem;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      max-width: 800px;
+      max-width: 1000px;
       margin: 3rem auto;
+    }
+    
+    .form-section {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .section-title {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
     }
     
     .form-group {
       margin-bottom: 1.5rem;
+    }
+    
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row .form-group {
+      flex: 1 1 300px;
     }
     
     label {
@@ -169,6 +193,40 @@
       border-radius: 5px;
       font-family: 'Inter', sans-serif;
       font-size: 1rem;
+    }
+    
+    .checkbox-group, .radio-group {
+      margin-bottom: 1rem;
+    }
+    
+    .checkbox-group label, .radio-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
+    
+    input[type="checkbox"], input[type="radio"] {
+      width: auto;
+      margin-right: 0.5rem;
+    }
+    
+    .symptoms-grid, .diseases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    .required {
+      color: var(--danger);
+    }
+    
+    .note {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-top: 0.3rem;
     }
     
     /* Admin Panel Styles */
@@ -373,6 +431,47 @@
       background: var(--danger);
     }
     
+    /* Donor Details Modal */
+    #donorDetailsModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1002;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .donor-details-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+    
+    .details-section {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .details-row {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+    
+    .details-label {
+      font-weight: 600;
+      min-width: 180px;
+    }
+    
     /* Responsive styles */
     @media (max-width: 768px) {
       .donation-steps {
@@ -385,6 +484,25 @@
       
       .admin-controls {
         flex-direction: column;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .symptoms-grid, .diseases-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .details-row {
+        flex-direction: column;
+        margin-bottom: 1rem;
+      }
+      
+      .details-label {
+        min-width: auto;
+        margin-bottom: 0.3rem;
       }
     }
   </style>
@@ -452,70 +570,264 @@
       <h2 style="text-align: center; margin-bottom: 2rem;">Register as a Donor</h2>
       
       <form id="donorForm">
-        <div class="form-group">
-          <label for="fullName">Full Name *</label>
-          <input type="text" id="fullName" required>
+        <!-- Personal Details Section -->
+        <div class="form-section">
+          <h3 class="section-title">Personal Details</h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fullName">Full Name <span class="required">*</span></label>
+              <input type="text" id="fullName" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address <span class="required">*</span></label>
+              <input type="email" id="email" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="phone" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="age">Age <span class="required">*</span></label>
+              <input type="number" id="age" min="18" max="65" required>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gender">Gender <span class="required">*</span></label>
+              <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="bloodType">Blood Type <span class="required">*</span></label>
+              <select id="bloodType" required>
+                <option value="">Select your blood type</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="height">Height (cm) <span class="required">*</span></label>
+              <input type="number" id="height" min="140" max="220" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="weight">Weight (kg) <span class="required">*</span></label>
+              <input type="number" id="weight" min="45" required>
+              <div class="note">Minimum weight for blood donation is 45kg</div>
+            </div>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" required>
+        <!-- Health Information Section -->
+        <div class="form-section">
+          <h3 class="section-title">Health Information</h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label>Do you have diabetes? <span class="required">*</span></label>
+              <div class="radio-group">
+                <label><input type="radio" name="diabetes" value="yes" required> Yes</label>
+                <label><input type="radio" name="diabetes" value="no"> No</label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Do you smoke? <span class="required">*</span></label>
+              <div class="radio-group">
+                <label><input type="radio" name="smoking" value="yes" required> Yes</label>
+                <label><input type="radio" name="smoking" value="no"> No</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="hemoglobin">Hemoglobin Count (if known)</label>
+              <input type="text" id="hemoglobin">
+            </div>
+            
+            <div class="form-group">
+              <label for="bloodPressure">Blood Pressure (if known)</label>
+              <input type="text" id="bloodPressure" placeholder="e.g., 120/80">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Do you suffer from or have suffered from any of the following diseases?</label>
+            <div class="diseases-grid">
+              <label><input type="checkbox" name="diseases" value="heart"> Heart Disease</label>
+              <label><input type="checkbox" name="diseases" value="lung"> Lung Disease</label>
+              <label><input type="checkbox" name="diseases" value="kidney"> Kidney Disease</label>
+              <label><input type="checkbox" name="diseases" value="cancer"> Cancer/Malignant Disease</label>
+              <label><input type="checkbox" name="diseases" value="epilepsy"> Epilepsy</label>
+              <label><input type="checkbox" name="diseases" value="tuberculosis"> Tuberculosis</label>
+              <label><input type="checkbox" name="diseases" value="bleeding"> Abnormal bleeding tendency</label>
+              <label><input type="checkbox" name="diseases" value="hepatitis"> Hepatitis B/C</label>
+              <label><input type="checkbox" name="diseases" value="allergic"> Allergic Disease</label>
+              <label><input type="checkbox" name="diseases" value="jaundice"> Jaundice</label>
+              <label><input type="checkbox" name="diseases" value="std"> Sexually Transmitted Disease</label>
+              <label><input type="checkbox" name="diseases" value="malaria"> Malaria</label>
+              <label><input type="checkbox" name="diseases" value="typhoid"> Typhoid (Last 1 year)</label>
+              <label><input type="checkbox" name="diseases" value="fainting"> Fainting Spells</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Current symptoms (if any)</label>
+            <div class="symptoms-grid">
+              <label><input type="checkbox" name="symptoms" value="fever"> Fever</label>
+              <label><input type="checkbox" name="symptoms" value="cough"> Cough</label>
+              <label><input type="checkbox" name="symptoms" value="cold"> Cold</label>
+              <label><input type="checkbox" name="symptoms" value="headache"> Headache</label>
+              <label><input type="checkbox" name="symptoms" value="weightloss"> Unexplained Weight Loss</label>
+              <label><input type="checkbox" name="symptoms" value="diarrhea"> Repeated Diarrhea</label>
+              <label><input type="checkbox" name="symptoms" value="glands"> Swollen Glands</label>
+              <label><input type="checkbox" name="symptoms" value="fever"> Continuous Low-Grade Fever</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Is there any history of surgery or blood transfusion in the past 6 months?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="surgery" value="major"> Major Surgery</label>
+              <label><input type="radio" name="surgery" value="transfusion"> Blood Transfusion</label>
+              <label><input type="radio" name="surgery" value="none"> None</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Do you have any reason to believe that you may be infected by either Hepatitis, Malaria, HIV/AIDS, and/or Venereal Disease? <span class="required">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="infectionRisk" value="yes" required> Yes</label>
+              <label><input type="radio" name="infectionRisk" value="no"> No</label>
+            </div>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="phone">Phone Number *</label>
-          <input type="tel" id="phone" required>
+        <!-- Identification Section -->
+        <div class="form-section">
+          <h3 class="section-title">Identification</h3>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="idType">ID Proof Type <span class="required">*</span></label>
+              <select id="idType" required>
+                <option value="">Select ID Type</option>
+                <option value="aadhaar">Aadhaar Card</option>
+                <option value="passport">Passport</option>
+                <option value="driving">Driving License</option>
+                <option value="voter">Voter ID</option>
+                <option value="other">Other Government ID</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="idNumber">ID Number <span class="required">*</span></label>
+              <input type="text" id="idNumber" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="idUpload">Upload ID Proof (Optional)</label>
+            <input type="file" id="idUpload">
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="bloodType">Blood Type *</label>
-          <select id="bloodType" required>
-            <option value="">Select your blood type</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-          </select>
+        <!-- Donation History Section -->
+        <div class="form-section">
+          <h3 class="section-title">Donation History</h3>
+          
+          <div class="form-group">
+            <label>Have you donated blood previously? <span class="required">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="prevDonation" value="yes" required> Yes</label>
+              <label><input type="radio" name="prevDonation" value="no"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-row" id="lastDonationDetails" style="display: none;">
+            <div class="form-group">
+              <label for="lastDonationDate">Last Donation Date</label>
+              <input type="date" id="lastDonationDate">
+            </div>
+            
+            <div class="form-group">
+              <label for="lastDonationPlace">Last Donation Place</label>
+              <input type="text" id="lastDonationPlace">
+            </div>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="location">Preferred Donation Center *</label>
-          <select id="location" required>
-            <option value="">Select nearest center</option>
-            <option value="Bangalore Central">Bangalore Central</option>
-            <option value="Chennai South">Chennai South</option>
-            <option value="Delhi North">Delhi North</option>
-            <option value="Mumbai West">Mumbai West</option>
-          </select>
+        <!-- Location Preferences -->
+        <div class="form-section">
+          <h3 class="section-title">Location Preferences</h3>
+          
+          <div class="form-group">
+            <label for="location">Preferred Donation Center <span class="required">*</span></label>
+            <select id="location" required>
+              <option value="">Select nearest center</option>
+              <option value="Bangalore Central">Bangalore Central</option>
+              <option value="Chennai South">Chennai South</option>
+              <option value="Delhi North">Delhi North</option>
+              <option value="Mumbai West">Mumbai West</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="availability">Preferred Donation Days/Times</label>
+            <select id="availability" multiple>
+              <option value="Weekday Mornings">Weekday Mornings</option>
+              <option value="Weekday Afternoons">Weekday Afternoons</option>
+              <option value="Weekday Evenings">Weekday Evenings</option>
+              <option value="Weekend Mornings">Weekend Mornings</option>
+              <option value="Weekend Afternoons">Weekend Afternoons</option>
+            </select>
+            <small style="display: block; margin-top: 0.3rem; color: var(--text-light);">Hold Ctrl/Cmd to select multiple options</small>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="availability">Preferred Donation Days/Times</label>
-          <select id="availability" multiple>
-            <option value="Weekday Mornings">Weekday Mornings</option>
-            <option value="Weekday Afternoons">Weekday Afternoons</option>
-            <option value="Weekday Evenings">Weekday Evenings</option>
-            <option value="Weekend Mornings">Weekend Mornings</option>
-            <option value="Weekend Afternoons">Weekend Afternoons</option>
-          </select>
-          <small style="display: block; margin-top: 0.3rem; color: var(--text-light);">Hold Ctrl/Cmd to select multiple options</small>
+        <!-- Declaration Section -->
+        <div class="form-section">
+          <h3 class="section-title">Declaration</h3>
+          
+          <div class="form-group">
+            <label for="healthDeclaration">I declare that I am in good health and meet all the eligibility criteria for blood donation. <span class="required">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="healthDeclaration" value="yes" required> Yes</label>
+              <label><input type="radio" name="healthDeclaration" value="no"> No</label>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="consent">
+              <input type="checkbox" id="consent" required>
+              I confirm that all information provided is accurate and I meet eligibility criteria. <span class="required">*</span>
+            </label>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label for="lastDonation">Last Donation Date (if any)</label>
-          <input type="date" id="lastDonation">
-        </div>
-        
-        <div class="form-group">
-          <input type="checkbox" id="consent" required>
-          <label for="consent" style="display: inline;">I confirm that all information provided is accurate and I meet eligibility criteria *</label>
-        </div>
-        
-        <button type="submit">Submit Donor Registration</button>
+        <button type="submit" class="btn">Submit Donor Registration</button>
       </form>
     </section>
   </div>
@@ -609,6 +921,22 @@
     </div>
   </div>
 
+  <!-- Donor Details Modal -->
+  <div id="donorDetailsModal">
+    <div class="donor-details-content">
+      <div class="admin-header">
+        <h2>Donor Details</h2>
+        <button onclick="closeModal('donorDetailsModal')" class="btn-danger">
+          <i class="fas fa-times"></i> Close
+        </button>
+      </div>
+      
+      <div id="donorDetailsContent">
+        <!-- Donor details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
@@ -626,209 +954,21 @@
       document.getElementById('adminLoginModal').style.display = 'flex';
     }
 
-    // Handle login form submission
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const password = document.getElementById('adminPassword').value;
-      
-      if (password === ADMIN_PASSWORD) {
-        localStorage.setItem('isAdmin', 'true');
-        closeModal('adminLoginModal');
-        viewDonors();
-        showToast('Admin access granted', 'success');
-      } else {
-        showToast('Incorrect password', 'error');
-      }
-      
-      this.reset();
-    });
-
-    // Form submission for donor registration
-    document.getElementById('donorForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form values
-      const donorData = {
-        id: 'donor-' + Date.now(),
-        name: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        bloodType: document.getElementById('bloodType').value,
-        location: document.getElementById('location').value,
-        availability: Array.from(document.getElementById('availability').selectedOptions)
-                         .map(option => option.value),
-        lastDonation: document.getElementById('lastDonation').value || null,
-        registrationDate: new Date().toISOString(),
-        status: "Active",
-        donations: []
-      };
-      
-      // Save to localStorage
-      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
-      donors.push(donorData);
-      localStorage.setItem('bloodDonors', JSON.stringify(donors));
-      
-      // Show success message
-      showToast(`Thank you, ${donorData.name}! Your donor registration is complete.`);
-      
-      // Reset form
-      this.reset();
-    });
-
-    // Admin: View all donors with filtering
-    function viewDonors() {
-      if (localStorage.getItem('isAdmin') !== 'true') {
-        showAdminLogin();
-        return;
-      }
-      
-      document.getElementById('adminPanel').style.display = 'flex';
-      filterDonors();
-    }
-
-    // Filter and display donors
-    function filterDonors() {
-      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
-      const searchTerm = document.getElementById('searchDonors').value.toLowerCase();
-      const statusFilter = document.getElementById('filterStatus').value;
-      const bloodTypeFilter = document.getElementById('filterBloodType').value;
-      const locationFilter = document.getElementById('filterLocation').value;
-      
-      const filteredDonors = donors.filter(donor => {
-        const matchesSearch = donor.name.toLowerCase().includes(searchTerm) || 
-                            donor.email.toLowerCase().includes(searchTerm) || 
-                            donor.phone.includes(searchTerm);
-        const matchesStatus = statusFilter === 'all' || donor.status === statusFilter;
-        const matchesBloodType = bloodTypeFilter === 'all' || donor.bloodType === bloodTypeFilter;
-        const matchesLocation = locationFilter === 'all' || donor.location === locationFilter;
-        
-        return matchesSearch && matchesStatus && matchesBloodType && matchesLocation;
-      });
-      
-      updateStats(donors);
-      displayDonors(filteredDonors);
-    }
-
-    // Update statistics
-    function updateStats(donors) {
-      const activeDonors = donors.filter(d => d.status === 'Active').length;
-      const totalDonations = donors.reduce((sum, donor) => sum + donor.donations.length, 0);
-      const totalBlood = donors.reduce((sum, donor) => {
-        return sum + donor.donations.reduce((donorSum, donation) => {
-          return donorSum + parseInt(donation.volume) || 0;
-        }, 0);
-      }, 0);
-      
-      document.getElementById('totalDonors').textContent = donors.length;
-      document.getElementById('activeDonors').textContent = activeDonors;
-      document.getElementById('totalDonations').textContent = totalDonations;
-      document.getElementById('totalBlood').textContent = totalBlood + 'ml';
-    }
-
-    // Display donors in the admin panel
-    function displayDonors(donors) {
-      const donorsList = document.getElementById('donorsList');
-      
-      if (donors.length === 0) {
-        donorsList.innerHTML = '<p style="text-align: center; padding: 2rem;">No donor registrations found matching your criteria</p>';
-        return;
-      }
-      
-      let donorsHTML = '';
-      
-      donors.forEach((donor, index) => {
-        // Format last donation date if exists
-        const lastDonationDate = donor.lastDonation 
-          ? new Date(donor.lastDonation).toLocaleDateString() 
-          : 'Never donated';
-        
-        // Format registration date
-        const registrationDate = new Date(donor.registrationDate).toLocaleDateString();
-        
-        donorsHTML += `
-          <div class="donor-card">
-            <div class="donor-header">
-              <div>
-                <h3 style="margin: 0;">${donor.name}</h3>
-                <p style="margin: 0.3rem 0; color: var(--text-light);">
-                  ${donor.bloodType} | ${donor.location}
-                </p>
-              </div>
-              <span class="status-badge status-${donor.status.toLowerCase()}">
-                ${donor.status}
-              </span>
-            </div>
-            
-            <p><strong>Contact:</strong> ${donor.phone} | ${donor.email}</p>
-            <p><strong>Preferred Availability:</strong> ${donor.availability.join(', ')}</p>
-            <p><strong>Registered:</strong> ${registrationDate}</p>
-            <p><strong>Last Donation:</strong> ${lastDonationDate}</p>
-            
-            <div class="donation-history">
-              <p><strong>Donation History (${donor.donations.length}):</strong></p>
-              ${donor.donations.length > 0 ? `
-                ${donor.donations.map(donation => `
-                  <div class="donation-item">
-                    <span>${new Date(donation.date).toLocaleDateString()}</span>
-                    <span>${donation.volume}</span>
-                  </div>
-                `).join('')}
-              ` : '<p>No donations recorded yet</p>'}
-            </div>
-            
-            <div class="donor-actions">
-              <button class="btn-success" onclick="updateDonorStatus(${index}, 'Active')">
-                <i class="fas fa-check"></i> Active
-              </button>
-              <button class="btn-warning" onclick="updateDonorStatus(${index}, 'Inactive')">
-                <i class="fas fa-pause"></i> Inactive
-              </button>
-              <button class="btn-danger" onclick="deleteDonor(${index})">
-                <i class="fas fa-trash"></i> Remove
-              </button>
-            </div>
-          </div>
-        `;
-      });
-      
-      donorsList.innerHTML = donorsHTML;
-    }
-
-    // Admin: Update donor status
-    function updateDonorStatus(index, status) {
-      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
-      donors[index].status = status;
-      localStorage.setItem('bloodDonors', JSON.stringify(donors));
-      filterDonors(); // Refresh view with current filters
-      showToast(`Donor status updated to ${status}`);
-    }
-
-    // Admin: Delete donor
-    function deleteDonor(index) {
-      if (confirm('Are you sure you want to remove this donor?')) {
-        const donors = JSON.parse(localStorage.getItem('bloodDonors'));
-        donors.splice(index, 1);
-        localStorage.setItem('bloodDonors', JSON.stringify(donors));
-        filterDonors(); // Refresh view with current filters
-        showToast('Donor removed successfully');
-      }
-    }
-
-    // Close modal
+    // Close modal function
     function closeModal(modalId) {
       document.getElementById(modalId).style.display = 'none';
     }
 
+    // Close admin panel
     function closeAdminPanel() {
       document.getElementById('adminPanel').style.display = 'none';
     }
 
     // Show toast notification
-    function showToast(message, type = '') {
+    function showToast(message, type = 'success') {
       const toast = document.getElementById('toast');
       toast.textContent = message;
-      toast.className = 'toast';
-      if (type) toast.classList.add(type);
+      toast.className = type === 'error' ? 'toast error' : 'toast';
       toast.style.display = 'block';
       
       setTimeout(() => {
@@ -836,12 +976,354 @@
       }, 3000);
     }
 
-    // Initialize on load
-    window.onload = function() {
-      // Set up search input event listener
-      document.getElementById('searchDonors').addEventListener('input', filterDonors);
-    };
+    // Handle login form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+            const password = document.getElementById('adminPassword').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        closeModal('adminLoginModal');
+        document.getElementById('adminPanel').style.display = 'flex';
+        loadDonors();
+        updateStats();
+      } else {
+        showToast('Invalid password!', 'error');
+      }
+    });
+
+    // Handle donor form submission
+    document.getElementById('donorForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Basic validation
+      if (!validateForm()) {
+        showToast('Please fill all required fields correctly!', 'error');
+        return;
+      }
+      
+      // Create donor object
+      const donor = {
+        id: Date.now().toString(),
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        age: document.getElementById('age').value,
+        gender: document.getElementById('gender').value,
+        bloodType: document.getElementById('bloodType').value,
+        height: document.getElementById('height').value,
+        weight: document.getElementById('weight').value,
+        diabetes: document.querySelector('input[name="diabetes"]:checked').value,
+        smoking: document.querySelector('input[name="smoking"]:checked').value,
+        hemoglobin: document.getElementById('hemoglobin').value,
+        bloodPressure: document.getElementById('bloodPressure').value,
+        diseases: Array.from(document.querySelectorAll('input[name="diseases"]:checked')).map(cb => cb.value),
+        symptoms: Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(cb => cb.value),
+        surgery: document.querySelector('input[name="surgery"]:checked')?.value || 'none',
+        infectionRisk: document.querySelector('input[name="infectionRisk"]:checked').value,
+        idType: document.getElementById('idType').value,
+        idNumber: document.getElementById('idNumber').value,
+        prevDonation: document.querySelector('input[name="prevDonation"]:checked').value,
+        lastDonationDate: document.getElementById('lastDonationDate').value,
+        lastDonationPlace: document.getElementById('lastDonationPlace').value,
+        location: document.getElementById('location').value,
+        availability: Array.from(document.getElementById('availability').selectedOptions).map(opt => opt.value),
+        healthDeclaration: document.querySelector('input[name="healthDeclaration"]:checked').value,
+        status: 'Active',
+        registrationDate: new Date().toISOString().split('T')[0]
+      };
+      
+      // Save donor to localStorage
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      donors.push(donor);
+      localStorage.setItem('bloodDonors', JSON.stringify(donors));
+      
+      // Reset form
+      document.getElementById('donorForm').reset();
+      
+      // Show success message
+      showToast('Thank you for registering as a blood donor!');
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Toggle last donation details based on previous donation selection
+    document.querySelectorAll('input[name="prevDonation"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        const lastDonationDetails = document.getElementById('lastDonationDetails');
+        lastDonationDetails.style.display = this.value === 'yes' ? 'block' : 'none';
+      });
+    });
+
+    // Form validation function
+    function validateForm() {
+      // Check required fields
+      const requiredFields = document.querySelectorAll('[required]');
+      for (let field of requiredFields) {
+        if (!field.value) return false;
+      }
+      
+      // Check age requirement
+      const age = parseInt(document.getElementById('age').value);
+      if (age < 18 || age > 65) {
+        showToast('Age must be between 18 and 65 to donate blood.', 'error');
+        return false;
+      }
+      
+      // Check weight requirement
+      const weight = parseInt(document.getElementById('weight').value);
+      if (weight < 45) {
+        showToast('Minimum weight for blood donation is 45kg.', 'error');
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Load donors for admin panel
+    function loadDonors() {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const donorsList = document.getElementById('donorsList');
+      const searchTerm = document.getElementById('searchDonors').value.toLowerCase();
+      const statusFilter = document.getElementById('filterStatus').value;
+      const bloodTypeFilter = document.getElementById('filterBloodType').value;
+      const locationFilter = document.getElementById('filterLocation').value;
+      
+      // Filter donors
+      const filteredDonors = donors.filter(donor => {
+        const matchesSearch = donor.fullName.toLowerCase().includes(searchTerm) || 
+                             donor.email.toLowerCase().includes(searchTerm) || 
+                             donor.phone.includes(searchTerm);
+        const matchesStatus = statusFilter === 'all' || donor.status === statusFilter;
+        const matchesBloodType = bloodTypeFilter === 'all' || donor.bloodType === bloodTypeFilter;
+        const matchesLocation = locationFilter === 'all' || donor.location === locationFilter;
+        
+        return matchesSearch && matchesStatus && matchesBloodType && matchesLocation;
+      });
+      
+      // Display donors
+      donorsList.innerHTML = '';
+      
+      if (filteredDonors.length === 0) {
+        donorsList.innerHTML = '<p style="text-align: center; padding: 2rem;">No donors found matching your criteria.</p>';
+        return;
+      }
+      
+      filteredDonors.forEach(donor => {
+        const donorCard = document.createElement('div');
+        donorCard.className = 'donor-card';
+        donorCard.innerHTML = `
+          <div class="donor-header">
+            <div>
+              <h3>${donor.fullName}</h3>
+              <p>${donor.bloodType} | ${donor.age} years | ${donor.gender}</p>
+            </div>
+            <span class="status-badge status-${donor.status.toLowerCase()}">${donor.status}</span>
+          </div>
+          <p><i class="fas fa-envelope"></i> ${donor.email} | <i class="fas fa-phone"></i> ${donor.phone}</p>
+          <p><i class="fas fa-map-marker-alt"></i> ${donor.location}</p>
+          <div class="donor-actions">
+            <button class="btn btn-info" onclick="viewDonorDetails('${donor.id}')">
+              <i class="fas fa-eye"></i> View Details
+            </button>
+            <button class="btn ${donor.status === 'Active' ? 'btn-warning' : 'btn-success'}" 
+                    onclick="toggleDonorStatus('${donor.id}')">
+              <i class="fas ${donor.status === 'Active' ? 'fa-pause' : 'fa-play'}"></i> 
+              ${donor.status === 'Active' ? 'Deactivate' : 'Activate'}
+            </button>
+            <button class="btn btn-danger" onclick="deleteDonor('${donor.id}')">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        `;
+        donorsList.appendChild(donorCard);
+      });
+    }
+
+    // Update statistics in admin panel
+    function updateStats() {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const activeDonors = donors.filter(donor => donor.status === 'Active');
+      
+      document.getElementById('totalDonors').textContent = donors.length;
+      document.getElementById('activeDonors').textContent = activeDonors.length;
+      document.getElementById('totalDonations').textContent = donors.filter(d => d.prevDonation === 'yes').length;
+      document.getElementById('totalBlood').textContent = (donors.length * 350) + 'ml'; // Assuming 350ml per donation
+    }
+
+    // Filter donors based on search and filters
+    function filterDonors() {
+      loadDonors();
+    }
+
+    // View donor details
+    function viewDonorDetails(donorId) {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const donor = donors.find(d => d.id === donorId);
+      
+      if (!donor) {
+        showToast('Donor not found!', 'error');
+        return;
+      }
+      
+      const detailsContent = document.getElementById('donorDetailsContent');
+      detailsContent.innerHTML = `
+        <div class="details-section">
+          <h3>Personal Information</h3>
+          <div class="details-row">
+            <span class="details-label">Full Name:</span>
+            <span>${donor.fullName}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Email:</span>
+            <span>${donor.email}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Phone:</span>
+            <span>${donor.phone}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Age:</span>
+            <span>${donor.age} years</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Gender:</span>
+            <span>${donor.gender}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Blood Type:</span>
+            <span>${donor.bloodType}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Height/Weight:</span>
+            <span>${donor.height} cm / ${donor.weight} kg</span>
+          </div>
+        </div>
+        
+        <div class="details-section">
+          <h3>Health Information</h3>
+          <div class="details-row">
+            <span class="details-label">Diabetes:</span>
+            <span>${donor.diabetes}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Smoking:</span>
+            <span>${donor.smoking}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Hemoglobin:</span>
+            <span>${donor.hemoglobin || 'Not provided'}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Blood Pressure:</span>
+            <span>${donor.bloodPressure || 'Not provided'}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Diseases:</span>
+            <span>${donor.diseases.length > 0 ? donor.diseases.join(', ') : 'None reported'}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Symptoms:</span>
+            <span>${donor.symptoms.length > 0 ? donor.symptoms.join(', ') : 'None reported'}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Surgery/Transfusion:</span>
+            <span>${donor.surgery}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Infection Risk:</span>
+            <span>${donor.infectionRisk}</span>
+          </div>
+        </div>
+        
+        <div class="details-section">
+          <h3>Identification & Location</h3>
+          <div class="details-row">
+            <span class="details-label">ID Type:</span>
+            <span>${donor.idType}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">ID Number:</span>
+            <span>${donor.idNumber}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Preferred Center:</span>
+            <span>${donor.location}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Availability:</span>
+            <span>${donor.availability.join(', ') || 'Not specified'}</span>
+          </div>
+        </div>
+        
+        <div class="details-section">
+          <h3>Donation History</h3>
+          <div class="details-row">
+            <span class="details-label">Previous Donation:</span>
+            <span>${donor.prevDonation}</span>
+          </div>
+          ${donor.prevDonation === 'yes' ? `
+          <div class="details-row">
+            <span class="details-label">Last Donation Date:</span>
+            <span>${donor.lastDonationDate || 'Not provided'}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Last Donation Place:</span>
+            <span>${donor.lastDonationPlace || 'Not provided'}</span>
+          </div>
+          ` : ''}
+          <div class="details-row">
+            <span class="details-label">Registration Date:</span>
+            <span>${donor.registrationDate}</span>
+          </div>
+          <div class="details-row">
+            <span class="details-label">Status:</span>
+            <span class="status-badge status-${donor.status.toLowerCase()}">${donor.status}</span>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('donorDetailsModal').style.display = 'flex';
+    }
+
+    // Toggle donor status (Active/Inactive)
+    function toggleDonorStatus(donorId) {
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const donorIndex = donors.findIndex(d => d.id === donorId);
+      
+      if (donorIndex !== -1) {
+        donors[donorIndex].status = donors[donorIndex].status === 'Active' ? 'Inactive' : 'Active';
+        localStorage.setItem('bloodDonors', JSON.stringify(donors));
+        loadDonors();
+        updateStats();
+        showToast(`Donor status updated to ${donors[donorIndex].status}`);
+      }
+    }
+
+    // Delete donor
+    function deleteDonor(donorId) {
+      if (!confirm('Are you sure you want to delete this donor?')) return;
+      
+      const donors = JSON.parse(localStorage.getItem('bloodDonors'));
+      const updatedDonors = donors.filter(d => d.id !== donorId);
+      localStorage.setItem('bloodDonors', JSON.stringify(updatedDonors));
+      loadDonors();
+      updateStats();
+      showToast('Donor deleted successfully');
+    }
+
+    // Initialize search functionality
+    document.getElementById('searchDonors').addEventListener('input', loadDonors);
+
+    // Initialize previous donation toggle
+    document.querySelectorAll('input[name="prevDonation"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        document.getElementById('lastDonationDetails').style.display = 
+          this.value === 'yes' ? 'block' : 'none';
+      });
+    });
   </script>
-   <iframe src="footer.html" style="width:100%; height:300px; border:none;"></iframe>
+    <iframe src="footer.html" style="width:100%; height:300px; border:none;"></iframe>
+
 </body>
 </html>
