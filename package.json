@@ -1,20 +1,25 @@
 {
-  "name": "blood-bank-backend",
+  "name": "devops-project",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "Server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Running dummy tests...\" && exit 0"
+    "start": "node Server.js",
+    "dev": "nodemon Server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "body-parser": "^2.2.0",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
-    "mysql2": "^3.14.3"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.0",
+    "nodemailer": "^7.0.6"
   },
-  "description": ""
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
-
