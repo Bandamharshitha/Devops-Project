@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node Server.js",
     "dev": "nodemon Server.js"
+    "test": "echo \"No tests yet\""
   },
   "keywords": [],
   "author": "",
