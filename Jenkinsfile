@@ -11,12 +11,13 @@ pipeline {
                 deleteDir()  // ensures full cleanup
             }
         }
-
+        
         stage('Checkout') {
-            steps {
-                sh 'git clone -b backend https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
-            }
-        }
+    steps {
+        // Clone main branch (contains backend folder)
+        sh 'git clone -b main https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
+    }
+}
 
         stage('Install Dependencies') {
             steps {
