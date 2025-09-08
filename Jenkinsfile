@@ -8,20 +8,20 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir()  // works if workspace is clean, otherwise clean manually
+                // Safe cleanup on Windows
+                bat 'rmdir /S /Q backend_repo || echo No directory to remove'
             }
         }
-        
+
         stage('Checkout') {
             steps {
-                // Use git via CMD
                 bat 'git clone -b main https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                dir('backend_repo\\backend') {
+                dir('backend_repo/backend') {
                     bat 'npm install'
                 }
             }
@@ -29,7 +29,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                dir('backend_repo\\backend') {
+                dir('backend_repo/backend') {
                     bat 'npm test'
                 }
             }
