@@ -1,25 +1,39 @@
 const express = require('express');
 const {
-  getAllDonors,
+  getMyProfile,
+  updateProfile,
+  getDonors,
   getDonor,
-  createDonor,
-  updateDonor,
-  deleteDonor,
-  searchDonors
+  updateDonorStatus,
+  recordDonation,
+  getNearbyRequests,
+  getDonorStats
 } = require('../controllers/donorController');
-const { protect, restrictTo } = require('../middleware/auth');
+const { protect, authorize, adminAuth } = require('../middleware/auth');
+const upload = require('../middleware/upload');
+const { validateDonorInfo, handleValidationErrors } = require('../middleware/validation');
 
 const router = express.Router();
 
-router.route('/')
-  .get(protect, restrictTo('admin', 'hospital'), getAllDonors)
-  .post(createDonor);
+router.use(protect);
 
-router.route('/search').get(protect, restrictTo('admin', 'hospital'), searchDonors);
+router.route('/me')
+  .get(getMyProfile)
+  .put(upload.single('idImage'), validateDonorInfo, handleValidationErrors, updateProfile);
+
+router.route('/donate').post(recordDonation);
+router.route('/nearby-requests').get(getNearbyRequests);
+
+// Admin routes
+router.use(adminAuth);
+
+router.route('/')
+  .get(getDonors);
+
+router.route('/stats').get(getDonorStats);
 
 router.route('/:id')
-  .get(protect, restrictTo('admin', 'hospital'), getDonor)
-  .patch(protect, updateDonor)
-  .delete(protect, restrictTo('admin'), deleteDonor);
+  .get(getDonor)
+  .put(updateDonorStatus);
 
 module.exports = router;

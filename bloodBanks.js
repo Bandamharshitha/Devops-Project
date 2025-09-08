@@ -1,29 +1,31 @@
 const express = require('express');
 const {
-  getAllHospitals,
-  getHospital,
-  createHospital,
-  updateHospital,
-  deleteHospital,
-  searchHospitals,
-  updateBloodInventory
+  getBloodBanks,
+  getBloodBank,
+  createBloodBank,
+  updateBloodBank,
+  deleteBloodBank,
+  updateInventory,
+  searchBloodBanks,
+  getBloodStats
 } = require('../controllers/bloodBankController');
-const { protect, restrictTo } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
 router.route('/')
-  .get(getAllHospitals)
-  .post(protect, restrictTo('admin'), createHospital);
+  .get(getBloodBanks)
+  .post(protect, authorize('hospital', 'admin'), createBloodBank);
 
-router.route('/search').get(searchHospitals);
+router.route('/search').get(searchBloodBanks);
+router.route('/stats').get(getBloodStats);
 
 router.route('/:id')
-  .get(getHospital)
-  .patch(protect, restrictTo('admin'), updateHospital)
-  .delete(protect, restrictTo('admin'), deleteHospital);
+  .get(getBloodBank)
+  .put(protect, authorize('hospital', 'admin'), updateBloodBank)
+  .delete(protect, authorize('hospital', 'admin'), deleteBloodBank);
 
 router.route('/:id/inventory')
-  .patch(protect, restrictTo('admin', 'hospital'), updateBloodInventory);
+  .put(protect, authorize('hospital', 'admin'), updateInventory);
 
 module.exports = router;
