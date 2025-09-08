@@ -6,9 +6,20 @@ pipeline {
     }
 
     stages {
+        stage('Check Tools') {
+            steps {
+                script {
+                    // Check if Docker is installed
+                    sh 'docker --version'
+                    // Check if Docker Compose is installed
+                    sh 'docker-compose --version'
+                }
+            }
+        }
+
         stage('Clean Workspace') {
             steps {
-                cleanWs()  // Clean entire workspace before starting
+                cleanWs()
             }
         }
 
@@ -17,7 +28,7 @@ pipeline {
                 dir('blood-bank-backend') {
                     checkout([
                         $class: 'GitSCM',
-                        branches: [[name: 'refs/heads/backend']],  // Match original branch
+                        branches: [[name: 'refs/heads/backend']],
                         userRemoteConfigs: [[
                             url: 'https://github.com/Bandamharshitha/Devops-Project.git',
                             credentialsId: 'github-credentials'
@@ -46,7 +57,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building application...'
-                // Add any build steps here if needed
             }
         }
 
