@@ -6,29 +6,18 @@ pipeline {
     }
 
     stages {
-        stage('Check Tools') {
-            steps {
-                script {
-                    // Check if Docker is installed
-                    sh 'docker --version'
-                    // Check if Docker Compose is installed
-                    sh 'docker-compose --version'
-                }
-            }
-        }
-
         stage('Clean Workspace') {
             steps {
-                cleanWs()
+                cleanWs()  // Deletes everything in the workspace
             }
         }
 
         stage('Checkout') {
             steps {
-                dir('blood-bank-backend') {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: 'refs/heads/backend']],
+                dir('blood-bank-backend') {   // folder where repo will be cloned
+                    deleteDir()               // clean this folder if it exists
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: 'refs/heads/main']],  // change branch if needed
                         userRemoteConfigs: [[
                             url: 'https://github.com/Bandamharshitha/Devops-Project.git',
                             credentialsId: 'github-credentials'
@@ -40,7 +29,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir('blood-bank-backend/backend') {
+                dir('blood-bank-backend/backend') {    // package.json is inside backend
                     sh 'npm install'
                 }
             }
@@ -56,15 +45,16 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building application...'
+                echo 'Build step (for frontend or packaging if needed)'
             }
         }
 
         stage('Deploy') {
             steps {
+                echo 'Deploying application with Docker Compose...'
                 dir('blood-bank-backend') {
-                    sh 'docker-compose down --remove-orphans || true'
-                    sh 'docker-compose up -d --build'
+                    sh 'docker-compose down || true'   // stop old containers if running
+                    sh 'docker-compose up -d --build'  // build and start fresh containers
                 }
             }
         }
