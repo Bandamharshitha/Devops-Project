@@ -1,6 +1,7 @@
 services:
   backend:
-    build: .
+    build:
+      context: ./backend   # <-- point to the folder containing package.json
     container_name: bloodbank-backend
     ports:
       - "5000:5000"
