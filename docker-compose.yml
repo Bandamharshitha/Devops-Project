@@ -4,26 +4,23 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile   # ✅ since your Dockerfile is in the root
+      dockerfile: Dockerfile
     container_name: bloodbank-backend
     ports:
       - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://db:27017/bloodbank   # 👈 backend will connect here
     depends_on:
       - db
 
   db:
-    image: mysql:8
+    image: mongo:6.0
     container_name: bloodbank-db
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: bloodbank
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "27017:27017"   # expose MongoDB if needed outside Docker
     volumes:
-      - db_data:/var/lib/mysql
+      - mongo_data:/data/db
 
 volumes:
-  db_data:
+  mongo_data:
