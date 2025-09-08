@@ -8,22 +8,22 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                cleanWs()  // delete everything in the workspace root
+                cleanWs()  // Clean entire workspace before starting
             }
         }
 
         stage('Checkout') {
             steps {
-                script {
-                    // Remove the folder if exists
-                    def repoDir = "${env.WORKSPACE}/blood-bank-backend"
-                    if (fileExists(repoDir)) {
-                        echo "Deleting existing repo folder..."
-                        deleteDir()
-                    }
+                dir('blood-bank-backend') {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: 'refs/heads/backend']],  // Match original branch
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/Bandamharshitha/Devops-Project.git',
+                            credentialsId: 'github-credentials'
+                        ]]
+                    ])
                 }
-                // Clone fresh
-                sh 'git clone -b backend https://github.com/Bandamharshitha/Devops-Project.git blood-bank-backend'
             }
         }
 
@@ -45,14 +45,15 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Build step (for frontend or packaging if needed)'
+                echo 'Building application...'
+                // Add any build steps here if needed
             }
         }
 
         stage('Deploy') {
             steps {
                 dir('blood-bank-backend') {
-                    sh 'docker-compose down || true'
+                    sh 'docker-compose down --remove-orphans || true'
                     sh 'docker-compose up -d --build'
                 }
             }
