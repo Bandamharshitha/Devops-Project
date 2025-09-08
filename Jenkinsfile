@@ -41,13 +41,12 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                dir('backend_repo') {
-                    sh 'docker-compose down || true'
-                    sh 'docker-compose up -d --build'
-                }
-            }
-        }
+       stage('Deploy') {
+    steps {
+        bat 'cd backend_repo && docker-compose down || exit 0'
+        bat 'cd backend_repo && docker-compose up -d --build'
+    }
+}
+
     }
 }
