@@ -1,23 +1,29 @@
+version: "3.8"
+
 services:
   backend:
     build:
-      context: ./backend   # <-- point to the folder containing package.json
+      context: .
+      dockerfile: Dockerfile   # ✅ since your Dockerfile is in the root
     container_name: bloodbank-backend
     ports:
       - "5000:5000"
-    environment:
-      - MONGODB_URI=mongodb://db:27017/bloodbank
     depends_on:
       - db
 
   db:
-    image: mongo:6.0
+    image: mysql:8
     container_name: bloodbank-db
     restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bloodbank
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     ports:
-      - "27017:27017"
+      - "3306:3306"
     volumes:
-      - mongo_data:/data/db
+      - db_data:/var/lib/mysql
 
 volumes:
-  mongo_data:
+  db_data:
