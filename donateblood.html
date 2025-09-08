@@ -466,6 +466,28 @@
           <label for="phone">Phone Number *</label>
           <input type="tel" id="phone" required>
         </div>
+        <div class="form-group">
+  <label for="age">Age *</label>
+  <input type="number" id="age" min="18" max="65" required>
+</div>
+
+<div class="form-group">
+  <label>Are you Diabetic? *</label>
+  <select id="diabetic" required>
+    <option value="">Select</option>
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>Do you Smoke? *</label>
+  <select id="smoke" required>
+    <option value="">Select</option>
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+  </select>
+</div>
         
         <div class="form-group">
           <label for="bloodType">Blood Type *</label>
@@ -509,7 +531,23 @@
           <label for="lastDonation">Last Donation Date (if any)</label>
           <input type="date" id="lastDonation">
         </div>
-        
+
+        <div class="form-group">
+  <label for="idProofType">ID Proof Type *</label>
+  <select id="idProofType" required>
+    <option value="">Select ID Proof</option>
+    <option value="Aadhar Card">Aadhar Card</option>
+    <option value="PAN Card">PAN Card</option>
+    <option value="Driving License">Driving License</option>
+    <option value="Passport">Passport</option>
+    <option value="Voter ID">Voter ID</option>
+  </select>
+</div>
+<div class="form-group">
+  <label for="idProofNumber">ID Proof Number *</label>
+  <input type="text" id="idProofNumber" required placeholder="Enter ID proof number">
+</div>
+
         <div class="form-group">
           <input type="checkbox" id="consent" required>
           <label for="consent" style="display: inline;">I confirm that all information provided is accurate and I meet eligibility criteria *</label>
@@ -649,19 +687,24 @@
       
       // Get form values
       const donorData = {
-        id: 'donor-' + Date.now(),
-        name: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        bloodType: document.getElementById('bloodType').value,
-        location: document.getElementById('location').value,
-        availability: Array.from(document.getElementById('availability').selectedOptions)
-                         .map(option => option.value),
-        lastDonation: document.getElementById('lastDonation').value || null,
-        registrationDate: new Date().toISOString(),
-        status: "Active",
-        donations: []
-      };
+  id: 'donor-' + Date.now(),
+  name: document.getElementById('fullName').value,
+  email: document.getElementById('email').value,
+  phone: document.getElementById('phone').value,
+  age: document.getElementById('age').value,
+  diabetic: document.getElementById('diabetic').value,
+  smoke: document.getElementById('smoke').value,
+  idProofType: document.getElementById('idProofType').value,
+  idProofNumber: document.getElementById('idProofNumber').value,
+  bloodType: document.getElementById('bloodType').value,
+  location: document.getElementById('location').value,
+  availability: Array.from(document.getElementById('availability').selectedOptions)
+                      .map(option => option.value),
+  lastDonation: document.getElementById('lastDonation').value || null,
+  registrationDate: new Date().toISOString(),
+  status: "Active",
+  donations: []
+};
       
       // Save to localStorage
       const donors = JSON.parse(localStorage.getItem('bloodDonors'));
@@ -706,7 +749,7 @@
       });
       
       updateStats(donors);
-      displayDonors(filteredDonors);
+      displayDonors(filteredDonors, donors);
     }
 
     // Update statistics
@@ -726,17 +769,20 @@
     }
 
     // Display donors in the admin panel
-    function displayDonors(donors) {
+    function displayDonors(filteredDonors, allDonors) {
       const donorsList = document.getElementById('donorsList');
       
-      if (donors.length === 0) {
+      if (filteredDonors.length === 0) {
         donorsList.innerHTML = '<p style="text-align: center; padding: 2rem;">No donor registrations found matching your criteria</p>';
         return;
       }
       
       let donorsHTML = '';
       
-      donors.forEach((donor, index) => {
+      filteredDonors.forEach((donor) => {
+        // Find the original index in the full array
+        const originalIndex = allDonors.findIndex(d => d.id === donor.id);
+        
         // Format last donation date if exists
         const lastDonationDate = donor.lastDonation 
           ? new Date(donor.lastDonation).toLocaleDateString() 
@@ -760,7 +806,7 @@
             </div>
             
             <p><strong>Contact:</strong> ${donor.phone} | ${donor.email}</p>
-            <p><strong>Preferred Availability:</strong> ${donor.availability.join(', ')}</p>
+            <p><strong>Preferred Availability:</strong> ${donor.availability.join(', ') || 'None specified'}</p>
             <p><strong>Registered:</strong> ${registrationDate}</p>
             <p><strong>Last Donation:</strong> ${lastDonationDate}</p>
             
@@ -777,13 +823,13 @@
             </div>
             
             <div class="donor-actions">
-              <button class="btn-success" onclick="updateDonorStatus(${index}, 'Active')">
+              <button class="btn-success" onclick="updateDonorStatus(${originalIndex}, 'Active')">
                 <i class="fas fa-check"></i> Active
               </button>
-              <button class="btn-warning" onclick="updateDonorStatus(${index}, 'Inactive')">
+              <button class="btn-warning" onclick="updateDonorStatus(${originalIndex}, 'Inactive')">
                 <i class="fas fa-pause"></i> Inactive
               </button>
-              <button class="btn-danger" onclick="deleteDonor(${index})">
+              <button class="btn-danger" onclick="deleteDonor(${originalIndex})">
                 <i class="fas fa-trash"></i> Remove
               </button>
             </div>
