@@ -2,16 +2,10 @@ pipeline {
     agent any
 
     tools {
-        nodejs "NodeJS"
+        nodejs "NodeJS"   // We'll configure this in Jenkins
     }
 
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()  // delete everything in the workspace before starting
-            }
-        }
-
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -22,17 +16,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir('backend') {    // package.json is in backend
-                    sh 'npm install'
-                }
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                dir('backend') {
-                    sh 'npm test'
-                }
+                sh 'npm test'   // (tester must add "test" script in package.json)
             }
         }
 
@@ -44,9 +34,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploying application with Docker Compose...'
-                sh 'docker-compose down || true'   // stop old containers if running
-                sh 'docker-compose up -d --build'  // build and start fresh containers
+                echo 'Deploying application...'
+                // Later we’ll add docker build/run here
             }
         }
     }
