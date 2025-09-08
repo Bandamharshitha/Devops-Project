@@ -8,29 +8,29 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                deleteDir()  // ensures full cleanup
+                deleteDir()  // works if workspace is clean, otherwise clean manually
             }
         }
         
         stage('Checkout') {
-    steps {
-        // Clone main branch (contains backend folder)
-        sh 'git clone -b main https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
-    }
-}
+            steps {
+                // Use git via CMD
+                bat 'git clone -b main https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
+            }
+        }
 
         stage('Install Dependencies') {
             steps {
-                dir('backend_repo/backend') {
-                    sh 'npm install'
+                dir('backend_repo\\backend') {
+                    bat 'npm install'
                 }
             }
         }
 
         stage('Test') {
             steps {
-                dir('backend_repo/backend') {
-                    sh 'npm test'
+                dir('backend_repo\\backend') {
+                    bat 'npm test'
                 }
             }
         }
@@ -41,12 +41,13 @@ pipeline {
             }
         }
 
-       stage('Deploy') {
-    steps {
-        bat 'cd backend_repo && docker-compose down || exit 0'
-        bat 'cd backend_repo && docker-compose up -d --build'
-    }
-}
-
+        stage('Deploy') {
+            steps {
+                dir('backend_repo') {
+                    bat 'docker-compose down || exit 0'
+                    bat 'docker-compose up -d --build'
+                }
+            }
+        }
     }
 }
