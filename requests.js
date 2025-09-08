@@ -1,26 +1,31 @@
 const express = require('express');
 const {
-  getAllRequests,
-  getRequest,
   createRequest,
+  getRequests,
+  getRequest,
   updateRequest,
   deleteRequest,
-  fulfillRequest
+  getRequestStats,
+  donorResponse
 } = require('../controllers/requestController');
-const { protect, restrictTo } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
+const { validateBloodRequest, handleValidationErrors } = require('../middleware/validation');
 
 const router = express.Router();
 
+router.use(protect);
+
 router.route('/')
-  .get(protect, restrictTo('admin', 'hospital'), getAllRequests)
-  .post(protect, restrictTo('admin', 'hospital'), createRequest);
+  .get(getRequests)
+  .post(validateBloodRequest, handleValidationErrors, createRequest);
+
+router.route('/stats').get(getRequestStats);
 
 router.route('/:id')
-  .get(protect, restrictTo('admin', 'hospital'), getRequest)
-  .patch(protect, restrictTo('admin', 'hospital'), updateRequest)
-  .delete(protect, restrictTo('admin'), deleteRequest);
+  .get(getRequest)
+  .put(updateRequest)
+  .delete(deleteRequest);
 
-router.route('/:id/fulfill')
-  .post(protect, restrictTo('admin', 'hospital'), fulfillRequest);
+router.route('/:requestId/response').post(donorResponse);
 
 module.exports = router;
