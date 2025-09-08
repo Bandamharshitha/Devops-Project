@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()  // delete everything in the workspace before starting
+            }
+        }
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -16,7 +22,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                dir('backend') {
+                dir('backend') {    // package.json is in backend
                     sh 'npm install'
                 }
             }
