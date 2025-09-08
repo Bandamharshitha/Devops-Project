@@ -38,8 +38,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                // Later add docker-compose up here
+                echo 'Deploying application with Docker Compose...'
+                sh 'docker-compose down || true'   // stop old containers if running
+                sh 'docker-compose up -d --build'  // build and start fresh containers
             }
         }
     }
