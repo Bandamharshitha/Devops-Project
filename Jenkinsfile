@@ -39,8 +39,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying application with Docker Compose...'
-                bat 'docker compose down || exit 0'  // stop old containers if running
-                bat 'docker compose up -d --build'   // build and start fresh containers
+                sh 'docker-compose down || true'   // stop old containers if running
+                sh 'docker-compose up -d --build'  // build and start fresh containers
             }
         }
     }
