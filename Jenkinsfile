@@ -8,26 +8,19 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                cleanWs()  // Delete everything in the workspace
+                deleteDir()  // ensures full cleanup
             }
         }
 
         stage('Checkout') {
             steps {
-                script {
-                    def repoDir = "${env.WORKSPACE}/blood-bank-backend"
-                    if (fileExists(repoDir)) {
-                        echo "Deleting existing repo folder..."
-                        sh "rm -rf ${repoDir}"
-                    }
-                }
-                sh 'git clone -b backend https://github.com/Bandamharshitha/Devops-Project.git blood-bank-backend'
+                sh 'git clone -b backend https://github.com/Bandamharshitha/Devops-Project.git backend_repo'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                dir('blood-bank-backend/backend') {
+                dir('backend_repo/backend') {
                     sh 'npm install'
                 }
             }
@@ -35,7 +28,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                dir('blood-bank-backend/backend') {
+                dir('backend_repo/backend') {
                     sh 'npm test'
                 }
             }
@@ -49,7 +42,7 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                dir('blood-bank-backend') {
+                dir('backend_repo') {
                     sh 'docker-compose down || true'
                     sh 'docker-compose up -d --build'
                 }
