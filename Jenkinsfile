@@ -2,27 +2,44 @@ pipeline {
     agent any
 
     tools {
-        nodejs "NodeJS"   // We'll configure this in Jenkins
+        nodejs "NodeJS"
     }
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()  // Deletes everything in the workspace
+            }
+        }
+
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Bandamharshitha/Devops-Project.git',
-                    credentialsId: 'github-credentials'
+                dir('blood-bank-backend') {   // folder where repo will be cloned
+                    deleteDir()               // clean this folder if it exists
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: 'refs/heads/main']],  // change branch if needed
+                        userRemoteConfigs: [[
+                            url: 'https://github.com/Bandamharshitha/Devops-Project.git',
+                            credentialsId: 'github-credentials'
+                        ]]
+                    ])
+                }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('blood-bank-backend/backend') {    // package.json is inside backend
+                    sh 'npm install'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm test'   // (tester must add "test" script in package.json)
+                dir('blood-bank-backend/backend') {
+                    sh 'npm test'
+                }
             }
         }
 
@@ -34,8 +51,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deploying application...'
-                // Later we’ll add docker build/run here
+                echo 'Deploying application with Docker Compose...'
+                dir('blood-bank-backend') {
+                    sh 'docker-compose down || true'   // stop old containers if running
+                    sh 'docker-compose up -d --build'  // build and start fresh containers
+                }
             }
         }
     }
