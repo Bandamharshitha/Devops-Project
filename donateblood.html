@@ -472,6 +472,52 @@
       min-width: 180px;
     }
     
+    /* Footer Styles */
+    footer {
+      background: #333;
+      color: white;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer-section h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+    
+    .footer-section p, .footer-section li {
+      margin-bottom: 0.5rem;
+      color: #ccc;
+    }
+    
+    .footer-section a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-section a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      padding-top: 1rem;
+      border-top: 1px solid #555;
+      text-align: center;
+      color: #999;
+    }
+    
     /* Responsive styles */
     @media (max-width: 768px) {
       .donation-steps {
@@ -503,6 +549,10 @@
       .details-label {
         min-width: auto;
         margin-bottom: 0.3rem;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -674,8 +724,9 @@
           </div>
           
           <div class="form-group">
-            <label>Do you suffer from or have suffered from any of the following diseases?</label>
+            <label>Do you suffer from or have suffered from any of the following diseases? <span class="required">*</span></label>
             <div class="diseases-grid">
+              <label><input type="checkbox" name="diseases" value="none" id="noDiseases"> No diseases</label>
               <label><input type="checkbox" name="diseases" value="heart"> Heart Disease</label>
               <label><input type="checkbox" name="diseases" value="lung"> Lung Disease</label>
               <label><input type="checkbox" name="diseases" value="kidney"> Kidney Disease</label>
@@ -832,6 +883,7 @@
     </section>
   </div>
 
+
   <!-- Admin Panel -->
   <div id="adminPanel">
     <div class="admin-panel-content">
@@ -979,7 +1031,7 @@
     // Handle login form submission
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
-            const password = document.getElementById('adminPassword').value;
+      const password = document.getElementById('adminPassword').value;
       
       if (password === ADMIN_PASSWORD) {
         closeModal('adminLoginModal');
@@ -991,6 +1043,42 @@
       }
     });
 
+    // Handle diseases checkbox logic
+    function setupDiseasesCheckboxes() {
+      const noDiseasesCheckbox = document.getElementById('noDiseases');
+      const otherDiseasesCheckboxes = document.querySelectorAll('input[name="diseases"]:not(#noDiseases)');
+      
+      // When "No diseases" is checked, uncheck all others
+      noDiseasesCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          otherDiseasesCheckboxes.forEach(cb => {
+            cb.checked = false;
+            cb.disabled = true;
+          });
+        } else {
+          otherDiseasesCheckboxes.forEach(cb => {
+            cb.disabled = false;
+          });
+        }
+      });
+      
+      // When any other disease is checked, uncheck "No diseases"
+      otherDiseasesCheckboxes.forEach(cb => {
+        cb.addEventListener('change', function() {
+          if (this.checked) {
+            noDiseasesCheckbox.checked = false;
+            noDiseasesCheckbox.disabled = true;
+          } else {
+            // If no diseases are checked, enable "No diseases" option
+            const anyChecked = Array.from(otherDiseasesCheckboxes).some(cb => cb.checked);
+            if (!anyChecked) {
+              noDiseasesCheckbox.disabled = false;
+            }
+          }
+        });
+      });
+    }
+
     // Handle donor form submission
     document.getElementById('donorForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -1000,6 +1088,10 @@
         showToast('Please fill all required fields correctly!', 'error');
         return;
       }
+      
+      // Get selected diseases
+      const diseaseCheckboxes = document.querySelectorAll('input[name="diseases"]:checked');
+      const diseases = Array.from(diseaseCheckboxes).map(cb => cb.value);
       
       // Create donor object
       const donor = {
@@ -1016,7 +1108,7 @@
         smoking: document.querySelector('input[name="smoking"]:checked').value,
         hemoglobin: document.getElementById('hemoglobin').value,
         bloodPressure: document.getElementById('bloodPressure').value,
-        diseases: Array.from(document.querySelectorAll('input[name="diseases"]:checked')).map(cb => cb.value),
+        diseases: diseases,
         symptoms: Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(cb => cb.value),
         surgery: document.querySelector('input[name="surgery"]:checked')?.value || 'none',
         infectionRisk: document.querySelector('input[name="infectionRisk"]:checked').value,
@@ -1039,6 +1131,11 @@
       
       // Reset form
       document.getElementById('donorForm').reset();
+      
+      // Reset disease checkboxes state
+      document.querySelectorAll('input[name="diseases"]').forEach(cb => {
+        cb.disabled = false;
+      });
       
       // Show success message
       showToast('Thank you for registering as a blood donor!');
@@ -1074,6 +1171,13 @@
       const weight = parseInt(document.getElementById('weight').value);
       if (weight < 45) {
         showToast('Minimum weight for blood donation is 45kg.', 'error');
+        return false;
+      }
+      
+      // Check if at least one disease option is selected (including "none")
+      const diseaseCheckboxes = document.querySelectorAll('input[name="diseases"]:checked');
+      if (diseaseCheckboxes.length === 0) {
+        showToast('Please select at least one option in the diseases section.', 'error');
         return false;
       }
       
@@ -1322,8 +1426,12 @@
           this.value === 'yes' ? 'block' : 'none';
       });
     });
-  </script>
-    <iframe src="footer.html" style="width:100%; height:300px; border:none;"></iframe>
 
+    // Initialize diseases checkbox logic
+    document.addEventListener('DOMContentLoaded', function() {
+      setupDiseasesCheckboxes();
+    });
+  </script>
+  <iframe src="footer.html" style="width:100%; height:300px; border:none;"></iframe>
 </body>
 </html>
