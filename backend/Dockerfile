@@ -5,7 +5,7 @@ FROM node:18
 WORKDIR /usr/src/app
 
 # Copy package files first (for caching)
-COPY package*.json ./
+COPY backend/package.json
 
 # Install dependencies
 RUN npm install
