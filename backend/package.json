@@ -1,10 +1,10 @@
 {
   "name": "devops-project",
   "version": "1.0.0",
-  "main": "Server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node Server.js",
-    "dev": "nodemon Server.js",
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
     "test": "echo \"No tests yet\""
   },
   "keywords": [],
@@ -16,11 +16,13 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.0",
     "nodemailer": "^7.0.6"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^1.15.1"
   }
 }
