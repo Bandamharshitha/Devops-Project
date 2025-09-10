@@ -143,26 +143,30 @@ This project includes a `Dockerfile` so you can run it easily inside a container
 ### 1. Login to Docker Hub:  
 ```bash
 docker login
-
-# 2. Pull the image from Docker Hub
+```
+### 2. Pull the image from Docker Hub
+```bash
 docker pull team5/emergency-blood-tracker:latest
-
-# 3. Run the container with environment file
+```
+### 3. Run the container with environment file
+```bash
 docker run --env-file backend/.env -p 5000:5000 team5/emergency-blood-tracker:latest
-
-# 4. Check running containers
+```
+### 4. Check running containers
+```bash
 docker ps
-
+```
 # 5. View container logs (optional)
+```bash
 docker logs -f blood-tracker-container
-
+```
 ✅ Now the service will be running at:
 👉 http://localhost:5000/
  (or the port you exposed)
+```
+**## 👥 Contributors**
 
-## 👥 Contributors  
-
-Made by **Team 5**  
+Made by Team 5  
 
 | Name         | Roll Number  |
 |--------------|--------------|
