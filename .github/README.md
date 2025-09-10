@@ -56,11 +56,11 @@ It is especially useful for:
 3. Client-side validations & error handling  
 4. Integrated frontend with backend APIs
 
-👩‍💻 **Gnyaneshwari (24215A6706)**
-1.Backend Development – Designed APIs (Node.js + Express.js)
-2.Handled donor registration & hospital blood stock endpoints
-3.Database schema design for MongoDB
-4.Implemented input validation & error handling
+👩‍💻 **Gnyaneshwari (24215A6706)**  
+1. Backend Development – Designed APIs (Node.js + Express.js)  
+2. Handled donor registration & hospital blood stock endpoints  
+3. Database schema design for MongoDB  
+4. Implemented input validation & error handling  
 
 👩‍💻 **Kamakshi (23211A6746)**  
 1. Testing (Manual + Automated)  
