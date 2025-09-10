@@ -54,7 +54,13 @@ It is especially useful for:
 1. Frontend Development – Built responsive UI using HTML, CSS, JS  
 2. Designed search forms for blood type & location queries  
 3. Client-side validations & error handling  
-4. Integrated frontend with backend APIs  
+4. Integrated frontend with backend APIs
+
+👩‍💻 **Gnyaneshwari (24215A6706)**
+1.Backend Development – Designed APIs (Node.js + Express.js)
+2.Handled donor registration & hospital blood stock endpoints
+3.Database schema design for MongoDB
+4.Implemented input validation & error handling
 
 👩‍💻 **Kamakshi (23211A6746)**  
 1. Testing (Manual + Automated)  
@@ -166,3 +172,4 @@ Made by **Team 5**
 | J. Harshitha | 23211A6740   |
 | Kamakshi     | 23211A6746   |
 | G. Harshitha | 24215A6707   |
+|Gnyaneshwari  |24215A6706    |
