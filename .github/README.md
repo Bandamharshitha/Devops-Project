@@ -1,7 +1,7 @@
-# Emergency Blood Availability Tracker
+# 🩸 Emergency Blood Availability Tracker
 ## Problem Statement
-During medical emergencies, people struggle to find matching blood types.  
-Our project aims to build a *real-time dashboard* that shows available donors/hospitals with specific blood types nearby, based on location.
+During medical emergencies, people often struggle to find matching blood types quickly.
+Our project Emergency Blood Availability Tracker provides a real-time dashboard that shows available donors and hospitals with specific blood types nearby, based on location.
 ## Team Members and Roles
 - *Frontend Development:* G.Navya
 - *Backend Development:* Gnyaneshwari, G.Navya
