@@ -126,10 +126,10 @@ It is especially useful for:
 <img width="1530" height="674" alt="Screenshot 2025-08-27 111606" src="https://github.com/user-attachments/assets/452697a3-1f8d-4c28-8876-9056a4776fef" />  
 <img width="1529" height="707" alt="Screenshot 2025-08-27 111622" src="https://github.com/user-attachments/assets/0839bc77-68b2-439b-89be-b71d1cd129e3" />  
 <img width="1895" height="859" alt="image" src="https://github.com/user-attachments/assets/bc367569-f594-4498-94e2-a9e826d5dbe3" />    
-<img width="1439" height="813" alt="Screenshot 2025-09-08 12.13.58 PM" src="https://github.com/user-attachments/assets/EggpUtsxG8RtWz3ByHyPKF" />  
-<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.06 PM" src="https://github.com/user-attachments/assets/G4XUzS3ZSw6LwKLcByz6P6" />  
-<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.13 PM" src="https://github.com/user-attachments/assets/2GMutkXSAubDHDHQwmNZ5C" />  
-<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.23 PM" src="https://github.com/user-attachments/assets/6n1hgGvBiXPM7pStXWMmvb" />  
+<img width="1470" height="831" alt="Image" src="https://github.com/user-attachments/assets/cf1533db-0964-40ef-ae8b-423515a61612" />
+<img width="1470" height="831" alt="Image" src="https://github.com/user-attachments/assets/3c959c7c-8520-43da-9351-140ab5683b36" />
+<img width="1470" height="831" alt="Image" src="https://github.com/user-attachments/assets/a6709e45-6ed8-4f6c-8158-e5f226acbb1c" />
+<img width="1470" height="831" alt="Image" src="https://github.com/user-attachments/assets/68a874fe-0989-49bc-94b2-5cfee2801c15" /> 
 <img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
 ---
