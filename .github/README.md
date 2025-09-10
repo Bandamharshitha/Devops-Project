@@ -15,7 +15,7 @@ This saves time, reduces panic, and increases the chances of saving lives
 -Cloud-ready (AWS deployment planned)
 -Integrated with CI/CD pipelines (Jenkins)
 
-**#📖Conclusion**
+**#📖Conclusion**.
 The Emergency Blood Availability Tracker is a life-saving tool that provides quick, accurate, and real-time information during critical medical situations.
 It is especially useful for:
 -Patients in emergencies
@@ -35,6 +35,8 @@ It is especially useful for:
 2.Designed search forms for blood type & location queries
 3.Client-side validations & error handling
 4.Integrated frontend with backend APIs
+
+
 
 *👩‍💻 Kamakshi (23211A6746)*
 1.Testing (Manual + Automated)
