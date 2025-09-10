@@ -125,10 +125,12 @@ It is especially useful for:
 <img width="1491" height="866" alt="Screenshot 2025-08-27 111538" src="https://github.com/user-attachments/assets/6e0c64a4-e4b8-4e4c-ae10-64ee6d643651" />  
 <img width="1530" height="674" alt="Screenshot 2025-08-27 111606" src="https://github.com/user-attachments/assets/452697a3-1f8d-4c28-8876-9056a4776fef" />  
 <img width="1529" height="707" alt="Screenshot 2025-08-27 111622" src="https://github.com/user-attachments/assets/0839bc77-68b2-439b-89be-b71d1cd129e3" />  
-<img width="1895" height="859" alt="image" src="https://github.com/user-attachments/assets/bc367569-f594-4498-94e2-a9e826d5dbe3" />  
-<img width="1896" height="864" alt="Screenshot 2025-08-27 112124" src="https://github.com/user-attachments/assets/0540a783-94b7-4705-98a3-fb998f406d20" />  
-<img width="994" height="814" alt="Screenshot 2025-08-27 112233" src="https://github.com/user-attachments/assets/85d84bb1-15ab-440e-9ed8-e59b6e514c75" />  
-<img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />  
+<img width="1895" height="859" alt="image" src="https://github.com/user-attachments/assets/bc367569-f594-4498-94e2-a9e826d5dbe3" />    
+<img width="1439" height="813" alt="Screenshot 2025-09-08 12.13.58 PM" src="https://github.com/user-attachments/assets/EggpUtsxG8RtWz3ByHyPKF" />  
+<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.06 PM" src="https://github.com/user-attachments/assets/G4XUzS3ZSw6LwKLcByz6P6" />  
+<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.13 PM" src="https://github.com/user-attachments/assets/2GMutkXSAubDHDHQwmNZ5C" />  
+<img width="1439" height="813" alt="Screenshot 2025-09-08 12.14.23 PM" src="https://github.com/user-attachments/assets/6n1hgGvBiXPM7pStXWMmvb" />  
+<img width="1898" height="859" alt="Screenshot 2025-08-27 111045" src="https://github.com/user-attachments/assets/c10b74a9-6c5f-4777-93eb-35caca83d025" />
 
 ---
 
