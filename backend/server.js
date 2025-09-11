@@ -7,7 +7,16 @@ const connectDatabase = require('./config/database');
 const { verifyEmailConnection } = require('./utils/emailService');
 
 // Load env vars
-dotenv.config();
+dotenv.config({ path: './.env' }); // Ensure dotenv loads your .env file
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('PORT:', process.env.PORT);
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
+
+// Check if MONGODB_URI is defined
+if (!process.env.MONGODB_URI) {
+  console.error('Error: MONGODB_URI is undefined in .env file!');
+  process.exit(1);
+}
 
 // Connect to database
 connectDatabase();
@@ -66,7 +75,7 @@ app.all('*', (req, res) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  
+
   res.status(err.statusCode || 500).json({
     success: false,
     message: err.message || 'Server Error',
@@ -77,18 +86,16 @@ app.use((err, req, res, next) => {
 // Verify email connection on startup
 verifyEmailConnection();
 
+// Start server
 const PORT = process.env.PORT || 5000;
-
 const server = app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err, promise) => {
   console.log('Unhandled Rejection at:', promise, 'reason:', err);
-  server.close(() => {
-    process.exit(1);
-  });
+  server.close(() => process.exit(1));
 });
 
 module.exports = app;
